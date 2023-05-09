@@ -41,7 +41,7 @@ local FuriasImagemUi = Instance.new("ImageLabel")
         FuriasImagemUi.BorderSizePixel = 0
         FuriasImagemUi.Position = UDim2.new(0.0, 0, 0.0, 0)
         FuriasImagemUi.Size = UDim2.new(0, 50, 0, 50)
-        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id=13365025504"
+        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id="
 
 local SOMEXHUB = {}
 local UserInputService = game:GetService("UserInputService")
