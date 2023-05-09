@@ -1,3 +1,9 @@
+local guiName = "Furius HUB"
+local existingGui = game.CoreGui:FindFirstChild(guiName)
+if existingGui then
+    existingGui:Destroy()
+end
+
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "Furius HUB"
 ScreenGui.Parent = game.CoreGui
