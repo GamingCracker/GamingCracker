@@ -1,11 +1,3 @@
-local guiName = "FuriasTela"
-
--- Check if a ScreenGui with the specified name already exists and remove it
-local oldGui = game.CoreGui:FindFirstChild(guiName)
-if oldGui then
-    oldGui:Destroy()
-end
-
 local FuriasTela = Instance.new("ScreenGui")
 local FuriasUi = Instance.new("TextButton")
 local FuriasCantoUi = Instance.new("UICorner")
@@ -41,7 +33,7 @@ local FuriasImagemUi = Instance.new("ImageLabel")
         FuriasImagemUi.BorderSizePixel = 0
         FuriasImagemUi.Position = UDim2.new(0.0, 0, 0.0, 0)
         FuriasImagemUi.Size = UDim2.new(0, 50, 0, 50)
-        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id="
+        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id=13365025504"
 
 local SOMEXHUB = {}
 local UserInputService = game:GetService("UserInputService")
@@ -157,6 +149,15 @@ function Update:Window(text,logo,keybind)
 	local TCNR = Instance.new("UICorner")
 	TCNR.Name = "TCNR"
 	TCNR.Parent = Top
+
+	local Logo = Instance.new("ImageLabel")
+ Logo.Name = "Logo"
+ Logo.Parent = Top
+ Logo.BackgroundColor3 = Color3.fromRGB(224,224,224)
+ Logo.BackgroundTransparency = 1.000
+ Logo.Position = UDim2.new(-0.01, 0,-0.170, 0)
+ Logo.Size = UDim2.new(0, 55,0, 45)
+Logo.Image = "rbxassetid://13365025504"
 
 	local Name = Instance.new("TextLabel")
 	Name.Name = "Name"
@@ -4310,35 +4311,34 @@ end)
 			end
 		end)
 
-Setting:Toggle("Fast Attack",true,function(value)
- _G.FastAttack = value
+Setting:Toggle("Fast Attack", true, function(value)
+    _G.FastAttack = value
 end)
 
--- [[ Fast Attack Fixed / Shadow Hub / Dont edit , or ur will be messed up! ]]
+-- [[ Fast Attack Fixed / Furius Hub / Dont edit , or ur will be messed up! ]]
 
 -- [[ Properties ]]
 
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 
-xShadowFastAttackx = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+xFuriusFastAttackx = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 
-xShadowx = debug.getupvalues(xShadowFastAttackx)[2]
+xFuriusx = debug.getupvalues(xFuriusFastAttackx)[2]
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if _G.FastAttack then
-            if typeof(xShadowx) == "table" then
+            if typeof(xFuriusx) == "table" then
                 pcall(function()
-                    xShadowx.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
-                    xShadowx.activeController.timeToNextAttack = 0
-                    xShadowx.activeController.hitboxMagnitude = 200
-                    xShadowx.activeController.active = false
-                    xShadowx.activeController.timeToNextBlock = 0
-                    xShadowx.activeController.focusStart = 0
-                    xShadowx.activeController.increment = 4
-                    xShadowx.activeController.blocking = false
-                    xShadowx.activeController.attacking = false
-                    xShadowx.activeController.humanoid.AutoRotate = 50
+                    xFuriusx.activeController.timeToNextAttack = 0
+                    xFuriusx.activeController.hitboxMagnitude = 200
+                    xFuriusx.activeController.active = false
+                    xFuriusx.activeController.timeToNextBlock = 0
+                    xFuriusx.activeController.focusStart = 0
+                    xFuriusx.activeController.increment = 4
+                    xFuriusx.activeController.blocking = false
+                    xFuriusx.activeController.attacking = false
+                    xFuriusx.activeController.humanoid.AutoRotate = 50
                 end)
             end
         end
@@ -4516,49 +4516,43 @@ spawn(function()
 Main:Line()
 
 function EquipWeapon(ToolSe)
-if not _G.NotAutoEquip then
-if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
-Tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
-wait(.1)
-game.Players.LocalPlayer.Character.Humanoid:EquipTool(Tool)
-end
-end
+    if not _G.NotAutoEquip then
+        if game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe) then
+            Tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
+            wait(.1)
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(Tool)
+        end
+    end
 end
 
 if _G.Select_Weapon == nil then
+    for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+        if v.ToolTip == "Melee" then
+            if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+                _G.Select_Weapon = tostring(v.Name)
+            end
+        end
+    end
+end
+
+WeaponList = {"Melee", "Sword", "Gun"}
+
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-if v.ToolTip == "Melee" then
-if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
-_G.Select_Weapon = tostring(v.Name)
-end
-end
-end
+    if v:IsA("Tool") then
+        table.insert(WeaponList ,v.Name)
+    end
 end
 
-WeaponList = {}
-
-for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-if v:IsA("Tool") then
-table.insert(WeaponList ,v.Name)
-end
-end
-local SelectWeapona = Main:Dropdown("Select Weapon",WeaponList,function(value)
- _G.Select_Weapon = value
- end)
-
-Main:Button("Refresh Weapon",function()
- SelectWeapona:Clear()
- for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
- SelectWeapona:Add(v.Name)
- end
+local SelectWeapona = Main:Dropdown("Select Weapon", WeaponList, function(value)
+    _G.Select_Weapon = value
 end)
 
 spawn(function()
     game:GetService("RunService").RenderStepped:Connect(function()
         if _G.click then
-             pcall(function()
+            pcall(function()
                 game:GetService'VirtualUser':CaptureController()
-			    game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+                game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
             end)
         end
     end)
@@ -4571,7 +4565,7 @@ Main:Button("Stop Teleport",function()
 
 Main:Seperator(" Main ")
 
-Main:Dropdown("Selecione modo de Farme", {
+Main:Dropdown("Selecione modo de Farm", {
  "Level Farme","Modo Rapido","Sem Missão","Near Farm Mode"
 },function(value)
  _G.Select_Mode_Farm = value
