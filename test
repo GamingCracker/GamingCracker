@@ -1,3 +1,8 @@
+local FuriasTela = game.Players.LocalPlayer.PlayerGui:FindFirstChild("FuriasTela")
+if FuriasTela then
+    FuriasTela:Destroy()
+end
+
 local FuriasTela = Instance.new("ScreenGui")
 local FuriasUi = Instance.new("TextButton")
 local FuriasCantoUi = Instance.new("UICorner")
