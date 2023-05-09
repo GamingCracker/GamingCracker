@@ -1,3 +1,11 @@
+local guiName = "FuriasTela"
+
+-- Check if a ScreenGui with the specified name already exists and remove it
+local oldGui = game.CoreGui:FindFirstChild(guiName)
+if oldGui then
+    oldGui:Destroy()
+end
+
 local FuriasTela = Instance.new("ScreenGui")
 local FuriasUi = Instance.new("TextButton")
 local FuriasCantoUi = Instance.new("UICorner")
