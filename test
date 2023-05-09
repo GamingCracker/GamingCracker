@@ -150,15 +150,6 @@ function Update:Window(text,logo,keybind)
 	TCNR.Name = "TCNR"
 	TCNR.Parent = Top
 
-	local Logo = Instance.new("ImageLabel")
- Logo.Name = "Logo"
- Logo.Parent = Top
- Logo.BackgroundColor3 = Color3.fromRGB(224,224,224)
- Logo.BackgroundTransparency = 1.000
- Logo.Position = UDim2.new(-0.01, 0,-0.170, 0)
- Logo.Size = UDim2.new(0, 55,0, 45)
-Logo.Image = "rbxassetid://13365025504"
-
 	local Name = Instance.new("TextLabel")
 	Name.Name = "Name"
 	Name.Parent = Top
