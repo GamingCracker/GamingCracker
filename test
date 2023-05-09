@@ -1,6 +1,3 @@
-if game.CoreGui:FindFirstChild("FuriasTela") then
-    game.CoreGui.FuriasTela:Destroy()
-end
 
 local FuriasTela = Instance.new("ScreenGui")
 local FuriasUi = Instance.new("TextButton")
