@@ -33,7 +33,7 @@ local FuriasImagemUi = Instance.new("ImageLabel")
         FuriasImagemUi.BorderSizePixel = 0
         FuriasImagemUi.Position = UDim2.new(0.0, 0, 0.0, 0)
         FuriasImagemUi.Size = UDim2.new(0, 50, 0, 50)
-        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id="
+        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id=13365025504"
 
 local SOMEXHUB = {}
 local UserInputService = game:GetService("UserInputService")
@@ -4535,16 +4535,22 @@ if _G.Select_Weapon == nil then
     end
 end
 
-WeaponList = {}
-
-for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
-    if v:IsA("Tool") then
-        table.insert(WeaponList ,v.Name)
-    end
-end
+WeaponList = {"Melee", "Sword", "Gun"}
 
 local SelectWeapona = Main:Dropdown("Select Weapon", WeaponList, function(value)
     _G.Select_Weapon = value
+end)
+
+spawn(function()
+    while true do
+        wait(1)
+        SelectWeapona:Clear()
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+            if v:IsA("Tool") then
+                SelectWeapona:Add(v.Name)
+            end
+        end
+    end
 end)
 
 spawn(function()
