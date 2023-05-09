@@ -37,7 +37,7 @@ local FuriasImagemUi = Instance.new("ImageLabel")
         FuriasImagemUi.BorderSizePixel = 0
         FuriasImagemUi.Position = UDim2.new(0.0, 0, 0.0, 0)
         FuriasImagemUi.Size = UDim2.new(0, 50, 0, 50)
-        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id=13365025504"
+        FuriasImagemUi.Image = "http://www.roblox.com/asset/?id="
 
 local SOMEXHUB = {}
 local UserInputService = game:GetService("UserInputService")
@@ -119,7 +119,7 @@ local pfp = "https://www.roblox.com/headshot-thumbnail/image?userId=".. game.Pla
 function Update:Window(text,logo,keybind)
 	local uihide = false
 	local abc = false
-	local logo = logo or 13365025504
+	local logo = logo or 
 	local currentpage = ""
 	local keybind = keybind or Enum.KeyCode.RightControl
 	local yoo = string.gsub(tostring(keybind),"Enum.KeyCode.","")
@@ -161,7 +161,7 @@ function Update:Window(text,logo,keybind)
  Logo.BackgroundTransparency = 1.000
  Logo.Position = UDim2.new(-0.01, 0,-0.170, 0)
  Logo.Size = UDim2.new(0, 55,0, 45)
-Logo.Image = "rbxassetid://13365025504"
+Logo.Image = "rbxassetid://"
 
 	local Name = Instance.new("TextLabel")
 	Name.Name = "Name"
@@ -4069,14 +4069,9 @@ local Misc = Library:Tab("Varios","rbxassetid://11447063791")
 local Op = Library:Tab("Estados", "rbxassetid://7040410130")
 --------------------------------------------------------------------
 
-Setting:Label("Entre no Discod Para Receber Atualizações")
+Setting:Label("André aqui e a parte de settings ok?")
 
 Setting:Line()
-
-Setting:Button("Copie Link Do Discord",function()
- 
- setclipboard("https://discord.gg/pMXwTQz6Yk")
- end)
 
 Setting:Seperator(" Config ")
 Setting:Toggle("Auto Set Spawn Points",true,function(value)
@@ -4342,7 +4337,7 @@ spawn(function()
                     xFuriusx.activeController.increment = 4
                     xFuriusx.activeController.blocking = false
                     xFuriusx.activeController.attacking = false
-                    xFuriusx.activeController.humanoid.AutoRotate = 50
+                    xFuriusx.activeController.humanoid.AutoRotate = 200
                 end)
             end
         end
@@ -10675,11 +10670,6 @@ Misc:Seperator(" Codigos ")
 local x2Code = {
  "kittgaming",
  "EXP_5B",
- "CINCODEMAYO_BOOST",
- "CODE_SERVICIO",
- "15B_BESTBRDEVSCOOKING",
- "Sub2CaptainMaui",
- "DEVSCOOKING",
  "CONTROL",
  "UPDATE11",
  "XMASEXP",
