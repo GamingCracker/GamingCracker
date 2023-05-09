@@ -10675,6 +10675,11 @@ Misc:Seperator(" Codigos ")
 local x2Code = {
  "kittgaming",
  "EXP_5B",
+ "CINCODEMAYO_BOOST",
+ "CODE_SERVICIO",
+ "15B_BESTBRDEVSCOOKING",
+ "Sub2CaptainMaui",
+ "DEVSCOOKING",
  "CONTROL",
  "UPDATE11",
  "XMASEXP",
