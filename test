@@ -4535,7 +4535,7 @@ if _G.Select_Weapon == nil then
     end
 end
 
-WeaponList = {"Melee", "Sword", "Gun"}
+WeaponList = {}
 
 for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
     if v:IsA("Tool") then
