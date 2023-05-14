@@ -49,39 +49,3 @@ textButton.Text = "Auto Farm: OFF"
 textButton.Size = UDim2.new(0, 150, 0, 50)
 textButton.Position = UDim2.new(0, 10, 0, 10)
 textButton.Parent = screenGui
-
-textButton.MouseButton1Click:Connect(function()
-    autoFarmEnabled = not autoFarmEnabled
-    textButton.Text = "Auto Farm: " .. (autoFarmEnabled and "ON" or "OFF")
-    if autoFarmEnabled then
-        autoFarm()
-    end
-end)
-
-local player = game.Players:FindFirstChild("StriderFake5")
-local teleportEnabled = false
-
-local function teleportToChests()
-    while teleportEnabled do
-        for i, v in pairs(workspace:GetDescendants()) do
-            if v.Name:sub(1, 5) == "Chest" then
-                player.Character:SetPrimaryPartCFrame(v.CFrame)
-                wait(5)
-            end
-        end
-    end
-end
-
-local textButton = Instance.new("TextButton")
-textButton.Text = "Teleport: OFF"
-textButton.Size = UDim2.new(0, 150, 0, 50)
-textButton.Position = UDim2.new(0, 20, 0, 20)
-textButton.Parent = screenGui
-
-textButton.MouseButton1Click:Connect(function()
-    teleportEnabled = not teleportEnabled
-    textButton.Text = "Teleport: " .. (teleportEnabled and "ON" or "OFF")
-    if teleportEnabled then
-        teleportToChests()
-    end
-end)
