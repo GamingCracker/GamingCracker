@@ -1,3 +1,7 @@
+
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))()
+
 local plr = game.Players.LocalPlayer
 local lastPos = plr.Character.PrimaryPart.CFrame
 local autoFarmEnabled = false
@@ -53,6 +57,3 @@ textButton.MouseButton1Click:Connect(function()
         autoFarm()
     end
 end)
-
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))()
