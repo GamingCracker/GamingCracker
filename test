@@ -1,7 +1,20 @@
 
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
+local Window = OrionLib:MakeWindow({Name = "Furious Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+
+local Tab = Window:MakeTab({
+	Name = "Auto Farm",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Auto Farm"
+    
 local plr = game.Players.LocalPlayer
 local lastPos = plr.Character.PrimaryPart.CFrame
 local autoFarmEnabled = false
@@ -41,38 +54,19 @@ local function autoFarm()
     end
 end
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.CoreGui
-
-local textButton = Instance.new("TextButton")
-textButton.Text = "Auto Farm: OFF"
-textButton.Size = UDim2.new(0, 150, 0, 50)
-textButton.Position = UDim2.new(0, 10, 0, 10)
-textButton.Parent = screenGui
-
-local player = game.Players.LocalPlayer
-local teleportEnabled = false
-
-local function teleportToPepperTown()
-    while teleportEnabled do
-        local destination = workspace:FindFirstChild("Pepper Town")
-        if destination then
-            player.Character:SetPrimaryPartCFrame(destination.CFrame)
+Tab:AddButton({
+    Name = "Auto Farm",
+    Callback = function()
+        autoFarmEnabled = not autoFarmEnabled
+        if autoFarmEnabled then
+            autoFarm()
         end
-        wait(5)
-    end
-end
+    end 
+})
 
-local textButton = Instance.new("TextButton")
-textButton.Text = "Telepor: OFF"
-textButton.Size = UDim2.new(0, 150, 0, 50)
-textButton.Position = UDim2.new(0, 50, 0, 50)
-textButton.Parent = screenGui
-
-textButton.MouseButton1Click:Connect(function()
-    teleportEnabled = not teleportEnabled
-    textButton.Text = "Teleport: " .. (teleportEnabled and "ON" or "OFF")
-    if teleportEnabled then
-        teleportToPepperTown()
-    end
-end)
+Tab:AddButton({
+	Name = "Button!",
+	Callback = function()
+      		print("button pressed")
+  	end    
+})
