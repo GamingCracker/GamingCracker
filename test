@@ -8,7 +8,7 @@ local function autoFarm()
     while autoFarmEnabled do
         pcall(function()
             for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
-                if v.Name == "Clown Guard" then
+                if v.Name == "Clown Guards" then
                     local enemy = v
                     lastPos = enemy.PrimaryPart.CFrame
                     repeat
