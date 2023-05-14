@@ -34,3 +34,16 @@ screenGui.Parent = game.CoreGui
 
 local textButton = Instance.new("TextButton")
 textButton.Parent = screenGui
+textButton.Size = UDim2.new(0, 100, 0, 50)
+textButton.Position = UDim2.new(0.5, -50, 0.5, -25)
+textButton.Text = "Toggle Auto Farm"
+
+textButton.MouseButton1Click:Connect(function()
+    autoFarmEnabled = not autoFarmEnabled
+    if autoFarmEnabled then
+        textButton.Text = "Auto Farm: ON"
+        autoFarm()
+    else
+        textButton.Text = "Auto Farm: OFF"
+    end
+end)
