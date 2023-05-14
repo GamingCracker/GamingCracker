@@ -8,7 +8,7 @@ local function autoFarm()
     while autoFarmEnabled do
         pcall(function()
             for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
-                if v.Name == "Clown Guards" then
+                if v.Name == "Clown Guard" then
                     local enemy = v
                     lastPos = enemy.PrimaryPart.CFrame
                     repeat
@@ -45,7 +45,7 @@ screenGui.Parent = game.CoreGui
 local textButton = Instance.new("TextButton")
 textButton.Parent = screenGui
 textButton.Size = UDim2.new(0, 100, 0, 50)
-textButton.Position = UDim2.new(0.5, -50, 0.5, -25)
+textButton.Position = UDim2.new(0, 10, 0, 10)
 textButton.Text = "Toggle Auto Farm"
 
 textButton.MouseButton1Click:Connect(function()
