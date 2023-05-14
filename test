@@ -21,16 +21,6 @@ local function autoFarm()
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
                     until enemy.Humanoid.Health <=0 or not enemy or not autoFarmEnabled
-                    if enemy.Humanoid.Health <= 0 then
-                        for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
-                            if v.Name == "Makato" then
-                                local makato = v
-                                char:SetPrimaryPartCFrame(makato.PrimaryPart.CFrame * CFrame.new(0,-10,0))
-                                task.wait(5)
-                                break
-                            end
-                        end
-                    end
                 end
             end
             plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
@@ -43,7 +33,4 @@ local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.CoreGui
 
 local textButton = Instance.new("TextButton")
-textButton.Text = "Auto Farm: OFF"
-textButton.Size = UDim2.new(0, 150, 0, 50)
-textButton.Position = UDim2.new(0, 10, 0, 10)
 textButton.Parent = screenGui
