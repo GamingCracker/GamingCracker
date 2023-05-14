@@ -42,12 +42,6 @@ Tab:AddButton({
 	end    
 })
 
-local Section = Tab:AddSection({Name = "Inventory"})
-for i, itemName in pairs(itemsList) do
-    Section:AddLabel({Text = itemName})
-end
-
-
 local plr = game.Players.LocalPlayer
 local autoFarmEnabled = false
 local npcs = {
