@@ -1,118 +1,163 @@
-local player = game.Players.LocalPlayer
-local backpack = player:WaitForChild("Backpack")
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local gui = Instance.new("ScreenGui")
-gui.Parent = player:WaitForChild("PlayerGui")
+local Window = OrionLib:MakeWindow({Name = "Furious Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 500, 0, 350)
-frame.Position = UDim2.new(0.5, -250, 0.5, -175)
-frame.BackgroundColor3 = Color3.new(1, 1, 1)
-frame.BorderSizePixel = 0
-frame.BackgroundTransparency = 0.5
-frame.Active = true
-frame.Draggable = true
-frame.Parent = gui
+local Tab = Window:MakeTab({
+	Name = "Auto Farm",
+	Icon = "rbxassetid://",
+	PremiumOnly = false
+})
 
-local closeButton = Instance.new("TextButton")
-closeButton.Text = "X"
-closeButton.Size = UDim2.new(0, 25, 0, 25)
-closeButton.Position = UDim2.new(1, -25, 0, 0)
-closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
-closeButton.BorderSizePixel = 0
-closeButton.Parent = frame
+local Section = Tab:AddSection({
+	Name = "Auto Farm"
+})
+ 
+ OrionLib:MakeNotification({
+	Name = "Title!",
+	Content = "Seja bem vindo!",
+	Image = "rbxassetid://",
+	Time = 5
+})
 
-local refreshButton = Instance.new("TextButton")
-refreshButton.Text = "Refresh"
-refreshButton.Size = UDim2.new(0, 100, 0, 50)
-refreshButton.Position = UDim2.new(0.5, -50, 0.1, -25)
-refreshButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-refreshButton.BorderSizePixel = 0
-refreshButton.Parent = frame
+Tab:AddButton({
+	Name = "Refresh",
+	Callback = function()
+		local plr = game.Players.LocalPlayer
+		local inventory = plr.Backpack:GetChildren()
+		local equipped = plr.Character:GetChildren()
+		local itemsList = {}
+		
+		for i, item in pairs(inventory) do
+			table.insert(itemsList, item.Name)
+		end
+		
+		for i, item in pairs(equipped) do
+			if item:IsA("Tool") then
+				table.insert(itemsList, item.Name)
+			end
+		end
+		
+		local itemsText = table.concat(itemsList, ", ")
+		print("Inventory and equipped items: " .. itemsText)
+	end    
+})
 
-local listFrame = Instance.new("Frame")
-listFrame.Size = UDim2.new(0.8, 0, 0.5, 0)
-listFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
-listFrame.BackgroundTransparency = 1
-listFrame.Visible = false
-listFrame.Parent = frame
-
-local list = Instance.new("UIListLayout")
-list.Parent = listFrame
-
-local autoFarmButton = Instance.new("TextButton")
-autoFarmButton.Text = "Auto Farm"
-autoFarmButton.Size = UDim2.new(0, 100, 0, 50)
-autoFarmButton.Position = UDim2.new(0.5, -50, 0.8, -25)
-autoFarmButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-autoFarmButton.BorderSizePixel = 0
-autoFarmButton.Parent = frame
-
-local on = false
-
-closeButton.MouseButton1Click:Connect(function()
-    frame.Visible = false
-end)
-
-refreshButton.MouseButton1Click:Connect(function()
-    listFrame:ClearAllChildren()
-    for i, v in pairs(backpack:GetChildren()) do
-        local itemButton = Instance.new("TextButton")
-        itemButton.Text = v.Name
-        itemButton.Size = UDim2.new(1, 0, 0, 50)
-        itemButton.BackgroundColor3 = Color3.new(1, 1, 1)
-        itemButton.BorderSizePixel = 0
-        itemButton.Parent = listFrame
-        itemButton.MouseButton1Click:Connect(function()
-            listFrame.Visible = false
-        end)
-    end
-    listFrame.Visible = true
-end)
-local plr = game.Players.LocalPlayer
-local lastPos = plr.Character.PrimaryPart.CFrame
-
-local npcs = {
-    {name = "Bandit", level = 5},
-    {name = "Higuma", level = 15},
-    {name = "Soldier", level = 25},
-    {name = "Captain Axe", level = 45}
-}
-
-local selectedWeapon
-
-for i, v in pairs(listFrame:GetChildren()) do
-    if v:IsA("TextButton") then
-        v.MouseButton1Click:Connect(function()
-            selectedWeapon = v.Text
-            listFrame.Visible = false
-        end)
-    end
+local Section = Tab:AddSection({Name = "Inventory"})
+for i, itemName in pairs(itemsList) do
+    Section:AddLabel({Text = itemName})
 end
 
-autoFarmButton.MouseButton1Click:Connect(function()
-    on = not on
-    if on then
-        autoFarmButton.Text = "Stop"
-        for _, npc in pairs(npcs) do
-            if plr.level >= npc.level then
-                local enemy = workspace:FindFirstChild(npc.name)
-                if enemy then
-                    lastPos = enemy.PrimaryPart.CFrame
-                    repeat task.wait()
-                        local char = plr.Character
-                        char:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
-                        local args = {
-                            [1] = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(selectedWeapon),
-                            [2] = enemy
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
-                    until enemy.Humanoid.Health <=0 or not enemy or not on
-                end
-            end
-        end
-        plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
-    else
-        autoFarmButton.Text = "Auto Farm"
-    end
-end)
+
+local plr = game.Players.LocalPlayer
+local autoFarmEnabled = false
+local npcs = {
+	{ name = "Bandit", level = 5 },
+	{ name = "Higuma", level = 15 },
+	{ name = "Soldier", level = 25 },
+	{ name = "Captain Axe", level = 45 },
+	{ name = "Clown Pirate", level = 75 },
+	{ name = "Boggy", level = math.huge }
+}
+
+local function getTargetNPC()
+	local playerLevel = plr.leaderstats.Level.Value
+	for i, npc in ipairs(npcs) do
+		if playerLevel < npc.level then
+			return npc.name
+		end
+	end
+end
+
+Tab:AddButton({
+	Name = "Auto Farm",
+	Callback = function()
+		autoFarmEnabled = not autoFarmEnabled
+		if autoFarmEnabled then
+			while autoFarmEnabled do
+				local targetNPCName = getTargetNPC()
+				
+				-- Check if player has quest for target NPC
+				if not hasQuest(targetNPCName) then
+					-- Go to quest NPC and accept quest
+					local questNPC = game.Workspace:FindFirstChild("QuestNPC")
+					if questNPC then
+						plr.Character:MoveTo(questNPC.PrimaryPart.Position)
+						wait(1)
+						
+						-- Accept quest using QuestPrompt object
+						local questPrompt = game.Players.LocalPlayer.PlayerGui:FindFirstChild("QuestPrompt")
+						if questPrompt then
+							local questList = questPrompt:FindFirstChild("QuestList")
+							local confirmButton = questPrompt:FindFirstChild("Confirm")
+							if questList and confirmButton then
+								-- Select quest from questList here
+								confirmButton:Fire()
+							end
+						end
+					end
+				end
+				
+				-- Attack target NPC until quest is completed
+				repeat
+					local targetNPC = game.Workspace:FindFirstChild(targetNPCName)
+					if targetNPC then
+						plr.Character:MoveTo(targetNPC.PrimaryPart.Position)
+						wait(1)
+						-- Attack NPC using Punch system here
+					end
+					wait(1)
+				until questIsCompleted(targetNPCName) or not autoFarmEnabled
+				
+				-- Check if player has reached next level and new quest is unlocked
+				if newQuestUnlocked() then
+					break
+				end
+			end
+		end
+	end    
+})
+
+Tab:AddToggle({
+	Name = "List",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+Tab:AddSlider({
+	Name = "Slider",
+	Min = 0,
+	Max = 20,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "bananas",
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+ 
+local Tab = Window:MakeTab({
+	Name = "Teleport",
+	Icon = "rbxassetid://",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+	Name = "Teleport Island"
+})
+
+Tab:AddSlider({
+	Name = "Slider",
+	Min = 0,
+	Max = 20,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "bananas",
+	Callback = function(Value)
+		print(Value)
+	end    
+})
