@@ -49,3 +49,30 @@ textButton.Text = "Auto Farm: OFF"
 textButton.Size = UDim2.new(0, 150, 0, 50)
 textButton.Position = UDim2.new(0, 10, 0, 10)
 textButton.Parent = screenGui
+
+local player = game.Players.LocalPlayer
+local teleportEnabled = false
+
+local function teleportToPepperTown()
+    while teleportEnabled do
+        local destination = workspace:FindFirstChild("Pepper Town")
+        if destination then
+            player.Character:SetPrimaryPartCFrame(destination.CFrame)
+        end
+        wait(5)
+    end
+end
+
+local textButton = Instance.new("TextButton")
+textButton.Text = "Teleport: OFF"
+textButton.Size = UDim2.new(0, 150, 0, 50)
+textButton.Position = UDim2.new(0, 50, 0, 50)
+textButton.Parent = screenGui
+
+textButton.MouseButton1Click:Connect(function()
+    teleportEnabled = not teleportEnabled
+    textButton.Text = "Teleport: " .. (teleportEnabled and "ON" or "OFF")
+    if teleportEnabled then
+        teleportToPepperTown()
+    end
+end)
