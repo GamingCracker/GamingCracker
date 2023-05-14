@@ -72,9 +72,6 @@ local function teleportToChests()
     end
 end
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.CoreGui
-
 local textButton = Instance.new("TextButton")
 textButton.Text = "Teleport: OFF"
 textButton.Size = UDim2.new(0, 150, 0, 50)
