@@ -1,10 +1,14 @@
 local plr = game.Players.LocalPlayer
 local lastPos = plr.Character.PrimaryPart.CFrame
-local autoFarmEnabled = false
 
-local function toggleFunction()
-    -- Your function code here
-    while autoFarmEnabled do
+-- Set up a variable to track whether the script is active or not
+local scriptActive = true
+
+plr.Character:SetPrimaryPartCFrame(game.ReplicatedStorage.ViewportNPCs.Eren.PrimaryPart.CFrame * CFrame.new(0,10,0))
+
+while task.wait() do
+    -- Only run the script if it is active
+    if scriptActive then
         pcall(function()
             for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
                 if v.Name == "Clown Pirate" then
@@ -21,7 +25,7 @@ local function toggleFunction()
 
                         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
 
-                    until enemy.Humanoid.Health <=0 or not enemy
+                    until enemy.Humanoid.Health <=0 or not enemy or not scriptActive
                 end
             end
             plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
@@ -29,22 +33,10 @@ local function toggleFunction()
     end
 end
 
--- Create a ScreenGui within the CoreGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.CoreGui
+-- Create a function that can be called by other scripts to turn off the script
+function turnOffScript()
+    scriptActive = false
+end
 
--- Create a TextButton within the ScreenGui
-local textButton = Instance.new("TextButton")
-textButton.Parent = screenGui
-textButton.Text = "Toggle Function"
-textButton.Position = UDim2.new(0.5, 0, 0.5, 0)
-textButton.AnchorPoint = Vector2.new(0.5, 0.5)
-
--- Connect the TextButton's MouseButton1Click event to toggle the function on and off
-textButton.MouseButton1Click:Connect(function()
-    autoFarmEnabled = not autoFarmEnabled
-    textButton.Text = "Auto Farm: " .. (autoFarmEnabled and "ON" or "OFF")
-    if autoFarmEnabled then
-        toggleFunction()
-    end
-end)
+-- Example usage:
+-- turnOffScript() -- call this function to turn off the script
