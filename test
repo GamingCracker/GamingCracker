@@ -5,19 +5,6 @@ local lastPos = char.PrimaryPart.CFrame
 local autoFarmEnabled = false
 local range = 50 -- range in studs
 
-local function fastAttack()
-    local tool1 = backpack:FindFirstChildOfClass("Tool") or char:FindFirstChildOfClass("Tool")
-    local tool2 = backpack:FindFirstChildOfClass("Tool", 2) or char:FindFirstChildOfClass("Tool", 2)
-    if tool1 then
-        tool1.Parent = char
-        tool1:Activate()
-    end
-    if tool2 then
-        tool2.Parent = char
-        tool2:Activate()
-    end
-end
-
 local function autoFarm()
     while autoFarmEnabled do
         pcall(function()
@@ -28,7 +15,11 @@ local function autoFarm()
                     repeat
                         task.wait()
                         char:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
-                        fastAttack()
+                        local punchTool = backpack:FindFirstChild("Punch") or char:FindFirstChild("Punch")
+                        if punchTool then
+                            punchTool.Parent = char
+                            punchTool:Activate()
+                        end
                     until enemy.Humanoid.Health <=0 or not enemy or not autoFarmEnabled
                 end
             end
