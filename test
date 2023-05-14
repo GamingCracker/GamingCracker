@@ -1,18 +1,5 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source", true))()
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "Furious Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
-
-
-local Tab = Window:MakeTab({
-	Name = "Auto Farm",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local Section = Tab:AddSection({
-	Name = "Auto Farm"
-    
 local plr = game.Players.LocalPlayer
 local lastPos = plr.Character.PrimaryPart.CFrame
 local autoFarmEnabled = false
@@ -52,19 +39,11 @@ local function autoFarm()
     end
 end
 
-Tab:AddButton({
-    Name = "Auto Farm",
-    Callback = function()
-        autoFarmEnabled = not autoFarmEnabled
-        if autoFarmEnabled then
-            autoFarm()
-        end
-    end 
-})
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.CoreGui
 
-Tab:AddButton({
-	Name = "Button!",
-	Callback = function()
-      		print("button pressed")
-  	end    
-})
+local textButton = Instance.new("TextButton")
+textButton.Text = "Auto Farm: OFF"
+textButton.Size = UDim2.new(0, 150, 0, 50)
+textButton.Position = UDim2.new(0, 10, 0, 10)
+textButton.Parent = screenGui
