@@ -1,49 +1,52 @@
 local plr = game.Players.LocalPlayer
 local lastPos = plr.Character.PrimaryPart.CFrame
+local autoFarmEnabled = false
 
--- Set up a variable to track whether bring mode is active or not
-local bringModeActive = false
+local function autoFarm()
+    -- Your auto farm code here
+    plr.Character:SetPrimaryPartCFrame(game.ReplicatedStorage.ViewportNPCs.Eren.PrimaryPart.CFrame * CFrame.new(0,10,0))
 
-plr.Character:SetPrimaryPartCFrame(game.ReplicatedStorage.ViewportNPCs.Eren.PrimaryPart.CFrame * CFrame.new(0,10,0))
+    while autoFarmEnabled do
+        pcall(function()
+            for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
+                if v.Name == "Clown Pirate" then
+                    local enemy = v
+                    lastPos = enemy.PrimaryPart.CFrame
+                    repeat task.wait()
+                        local char = plr.Character
 
-while task.wait() do
-    pcall(function()
-        for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
-            if v.Name == "Clown Pirate" then
-                local enemy = v
-                lastPos = enemy.PrimaryPart.CFrame
-                repeat task.wait()
-                    local char = plr.Character
-
-                    -- If bring mode is active, bring the player to the enemy
-                    if bringModeActive then
                         char:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
-                    end
+                        local args = {
+                            [1] = game:GetService("Players").LocalPlayer.Character.Punch,
+                            [2] = enemy
+                        }
 
-                    local args = {
-                        [1] = game:GetService("Players").LocalPlayer.Character.Punch,
-                        [2] = enemy
-                    }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
 
-                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
-
-                until enemy.Humanoid.Health <=0 or not enemy
+                    until enemy.Humanoid.Health <=0 or not enemy or not autoFarmEnabled
+                end
             end
-        end
-        plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
-    end)
+            plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
+        end)
+    end
 end
 
--- Create a function that can be called by other scripts to turn on bring mode
-function turnOnBringMode()
-    bringModeActive = true
-end
+-- Create a ScreenGui within the CoreGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.CoreGui
 
--- Create a function that can be called by other scripts to turn off bring mode
-function turnOffBringMode()
-    bringModeActive = false
-end
+-- Create a TextButton within the ScreenGui
+local textButton = Instance.new("TextButton")
+textButton.Text = "Auto Farm: OFF"
+textButton.Size = UDim2.new(0, 150, 0, 50)
+textButton.Position = UDim2.new(0, 10, 0, 10)
+textButton.Parent = screenGui
 
--- Example usage:
--- turnOnBringMode() -- call this function to turn on bring mode
--- turnOffBringMode() -- call this function to turn off bring mode
+-- Connect the TextButton's MouseButton1Click event to toggle the auto farm system on and off
+textButton.MouseButton1Click:Connect(function()
+    autoFarmEnabled = not autoFarmEnabled
+    textButton.Text = "Auto Farm: " .. (autoFarmEnabled and "ON" or "OFF")
+    if autoFarmEnabled then
+        autoFarm()
+    end
+end)
