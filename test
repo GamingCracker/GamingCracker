@@ -1,8 +1,55 @@
-while true do
-	local args = {
-	    [1] = "SkyJump"
-	}
+local plr = game.Players.LocalPlayer
+local lastPos = plr.Character.PrimaryPart.CFrame
+local autoFarmEnabled = false
 
-	game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
-	wait(1)
+local function autoFarm()
+    while autoFarmEnabled do
+        pcall(function()
+            for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
+                if v.Name == "Captain Axe" then
+                    local enemy = v
+                    lastPos = enemy.PrimaryPart.CFrame
+                    repeat
+                        task.wait()
+                        local char = plr.Character
+                        char:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+                        local args = {
+                            [1] = game:GetService("Players").LocalPlayer.Character.Punch,
+                            [2] = enemy
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+                    until enemy.Humanoid.Health <=0 or not enemy or not autoFarmEnabled
+                    if enemy.Humanoid.Health <= 0 then
+                        for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
+                            if v.Name == "Makato" then
+                                local makato = v
+                                char:SetPrimaryPartCFrame(makato.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+                                task.wait(5)
+                                break
+                            end
+                        end
+                    end
+                end
+            end
+            plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
+        end)
+        task.wait()
+    end
 end
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.CoreGui
+
+local textButton = Instance.new("TextButton")
+textButton.Text = "Auto Farm: OFF"
+textButton.Size = UDim2.new(0, 150, 0, 50)
+textButton.Position = UDim2.new(0, 10, 0, 10)
+textButton.Parent = screenGui
+
+textButton.MouseButton1Click:Connect(function()
+    autoFarmEnabled = not autoFarmEnabled
+    textButton.Text = "Auto Farm: " .. (autoFarmEnabled and "ON" or "OFF")
+    if autoFarmEnabled then
+        autoFarm()
+    end
+end)
