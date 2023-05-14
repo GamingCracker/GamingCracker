@@ -1,73 +1,118 @@
-local guiName = "Furius HUB"
-local existingGui = game.CoreGui:FindFirstChild(guiName)
-if existingGui then
-    existingGui:Destroy()
-end
+local player = game.Players.LocalPlayer
+local backpack = player:WaitForChild("Backpack")
 
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "Furius HUB"
-ScreenGui.Parent = game.CoreGui
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:WaitForChild("PlayerGui")
 
-local ImageButton = Instance.new("ImageButton")
-ImageButton.Parent = ScreenGui
-ImageButton.Size = UDim2.new(0, 50, 0, 50)
-ImageButton.Position = UDim2.new(0, 10, 0, 10)
-ImageButton.BackgroundTransparency = 1
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 500, 0, 350)
+frame.Position = UDim2.new(0.5, -250, 0.5, -175)
+frame.BackgroundColor3 = Color3.new(1, 1, 1)
+frame.BorderSizePixel = 0
+frame.BackgroundTransparency = 0.5
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
 
-local Frame = Instance.new("Frame")
-Frame.Parent = ScreenGui
-Frame.Size = UDim2.new(0, 525, 0, 300)
-Frame.Position = UDim2.new(0.5, -262.5, 0.5, -150)
-Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 139)
-Frame.BorderSizePixel = 0
-Frame.Visible = false
+local closeButton = Instance.new("TextButton")
+closeButton.Text = "X"
+closeButton.Size = UDim2.new(0, 25, 0, 25)
+closeButton.Position = UDim2.new(1, -25, 0, 0)
+closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+closeButton.BorderSizePixel = 0
+closeButton.Parent = frame
 
-local UICorner1 = Instance.new("UICorner")
-UICorner1.CornerRadius = UDim.new(0, 10)
-UICorner1.Parent = Frame
+local refreshButton = Instance.new("TextButton")
+refreshButton.Text = "Refresh"
+refreshButton.Size = UDim2.new(0, 100, 0, 50)
+refreshButton.Position = UDim2.new(0.5, -50, 0.1, -25)
+refreshButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+refreshButton.BorderSizePixel = 0
+refreshButton.Parent = frame
 
-local UICorner2 = Instance.new("UICorner")
-UICorner2.CornerRadius = UDim.new(0, 10)
-UICorner2.Parent = ImageButton
+local listFrame = Instance.new("Frame")
+listFrame.Size = UDim2.new(0.8, 0, 0.5, 0)
+listFrame.Position = UDim2.new(0.1, 0, 0.2, 0)
+listFrame.BackgroundTransparency = 1
+listFrame.Visible = false
+listFrame.Parent = frame
 
-ImageButton.MouseButton1Click:Connect(function()
-    Frame.Visible = not Frame.Visible
+local list = Instance.new("UIListLayout")
+list.Parent = listFrame
+
+local autoFarmButton = Instance.new("TextButton")
+autoFarmButton.Text = "Auto Farm"
+autoFarmButton.Size = UDim2.new(0, 100, 0, 50)
+autoFarmButton.Position = UDim2.new(0.5, -50, 0.8, -25)
+autoFarmButton.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
+autoFarmButton.BorderSizePixel = 0
+autoFarmButton.Parent = frame
+
+local on = false
+
+closeButton.MouseButton1Click:Connect(function()
+    frame.Visible = false
 end)
 
-local UserInputService = game:GetService("UserInputService")
-
-local dragging
-local dragInput
-local dragStart
-local startPos
-
-local function update(input)
-    local delta = input.Position - dragStart
-    ImageButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-ImageButton.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-        dragging = true
-        dragStart = input.Position
-        startPos = ImageButton.Position
-        
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-            end
+refreshButton.MouseButton1Click:Connect(function()
+    listFrame:ClearAllChildren()
+    for i, v in pairs(backpack:GetChildren()) do
+        local itemButton = Instance.new("TextButton")
+        itemButton.Text = v.Name
+        itemButton.Size = UDim2.new(1, 0, 0, 50)
+        itemButton.BackgroundColor3 = Color3.new(1, 1, 1)
+        itemButton.BorderSizePixel = 0
+        itemButton.Parent = listFrame
+        itemButton.MouseButton1Click:Connect(function()
+            listFrame.Visible = false
         end)
     end
+    listFrame.Visible = true
 end)
+local plr = game.Players.LocalPlayer
+local lastPos = plr.Character.PrimaryPart.CFrame
 
-UserInputService.InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        update(input)
+local npcs = {
+    {name = "Bandit", level = 5},
+    {name = "Higuma", level = 15},
+    {name = "Soldier", level = 25},
+    {name = "Captain Axe", level = 45}
+}
+
+local selectedWeapon
+
+for i, v in pairs(listFrame:GetChildren()) do
+    if v:IsA("TextButton") then
+        v.MouseButton1Click:Connect(function()
+            selectedWeapon = v.Text
+            listFrame.Visible = false
+        end)
     end
-end)
+end
 
-UserInputService.InputEnded:Connect(function(input)
-    if input == dragInput and dragging then
-        dragging = false
+autoFarmButton.MouseButton1Click:Connect(function()
+    on = not on
+    if on then
+        autoFarmButton.Text = "Stop"
+        for _, npc in pairs(npcs) do
+            if plr.level >= npc.level then
+                local enemy = workspace:FindFirstChild(npc.name)
+                if enemy then
+                    lastPos = enemy.PrimaryPart.CFrame
+                    repeat task.wait()
+                        local char = plr.Character
+                        char:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+                        local args = {
+                            [1] = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(selectedWeapon),
+                            [2] = enemy
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+                    until enemy.Humanoid.Health <=0 or not enemy or not on
+                end
+            end
+        end
+        plr.Character:SetPrimaryPartCFrame(lastPos * CFrame.new(0,10,0))
+    else
+        autoFarmButton.Text = "Auto Farm"
     end
 end)
