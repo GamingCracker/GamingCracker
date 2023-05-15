@@ -10,29 +10,20 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local npcs = {"Pillager", "Higuma", "Soldier", "Captain Axe", "Clown Pirate", "Boggy"}
+local npcs = {"Higuma", "Boggy"}
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
 local function attackNPC(npcName)
-    local npc = workspace:WaitForChild("ReplicatedChunks"):FindFirstChild(npcName)
-    if npc then
-        character:SetPrimaryPartCFrame(npc.PrimaryPart.CFrame * CFrame.new(0,-10,0))
-        local args = {
-            [1] = game:GetService("Players").LocalPlayer.Character.Punch,
-            [2] = npc
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
-    end
-end
-
-local function pullNPCs(npcName)
-    for _, npc in pairs(workspace:WaitForChild("ReplicatedChunks"):GetChildren()) do
-        if npc.Name == npcName then
-            local distance = (npc.PrimaryPart.Position - character.HumanoidRootPart.Position).Magnitude
-            if distance < 100 then -- adjust this value as needed
-                npc:SetPrimaryPartCFrame(character.HumanoidRootPart.CFrame * CFrame.new(0,10,0))
-            end
+    for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
+        if v.Name == npcName then
+            local enemy = v
+            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+            local args = {
+                [1] = game:GetService("Players").LocalPlayer.Character.Punch,
+                [2] = enemy
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
         end
     end
 end
@@ -45,8 +36,7 @@ for _, npcName in pairs(npcs) do
             if Value then
                 while Value do
                     attackNPC(npcName)
-                    pullNPCs(npcName)
-                    wait(0.1) -- adjust this value for faster attacks
+                    wait(0.01) -- adjust this value for faster attacks
                 end
             end
         end
@@ -66,7 +56,12 @@ Tab:AddToggle({
 while true do
     if bringAllNPCs then
         for _, npcName in pairs(npcs) do
-            pullNPCs(npcName)
+            for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
+                if v.Name == npcName then
+                    local enemy = v
+                    enemy:SetPrimaryPartCFrame(character.HumanoidRootPart.CFrame * CFrame.new(0,10,0))
+                end
+            end
         end
     end
     wait(0.1) -- adjust this value as needed
