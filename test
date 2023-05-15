@@ -1,5 +1,6 @@
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 
+-- Cria o ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "FlyGUI"
 screenGui.Parent = game.CoreGui
@@ -41,19 +42,64 @@ local function startFly()
     local char = plr.Character
     local rootPart = char:FindFirstChild("HumanoidRootPart")
     local cam = workspace.CurrentCamera
+    local userInputService = game:GetService("UserInputService")
 
     flying = true
 
     -- Desativa o colisor do personagem
     char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics)
 
-    -- Loop para controlar o movimento do personagem enquanto voa
+    -- Conecta os eventos de entrada do usuário para controlar o movimento do personagem enquanto voa
+    local connectionForwardBackward
+    connectionForwardBackward = userInputService.InputChanged:Connect(function(input)
+        if input.KeyCode == Enum.KeyCode.W then
+            rootPart.CFrame = rootPart.CFrame + cam.CFrame.LookVector * flySpeed
+        elseif input.KeyCode == Enum.KeyCode.S then
+            rootPart.CFrame = rootPart.CFrame - cam.CFrame.LookVector * flySpeed
+        end
+    end)
+
+    local connectionLeftRight
+    connectionLeftRight = userInputService.InputChanged:Connect(function(input)
+        if input.KeyCode == Enum.KeyCode.A then
+            rootPart.CFrame =
+                rootPart.CFrame - cam.CFrame.RightVector * flySpeed
+        elseif input.KeyCode == Enum.KeyCode.D then
+            rootPart.CFrame =
+                rootPart.CFrame + cam.CFrame.RightVector * flySpeed
+        end
+    end)
+
+    local connectionUpDown
+    connectionUpDown =
+        userInputService.InputChanged:Connect(function(input)
+            if input.KeyCode == Enum.KeyCode.Space then
+                rootPart.CFrame =
+                    rootPart.CFrame + Vector3.new(0, flySpeed, 0)
+            elseif input.KeyCode == Enum.KeyCode.LeftControl then
+                rootPart.CFrame =
+                    rootPart.CFrame - Vector3.new(0, flySpeed, 0)
+            end
+        end)
+
+    -- Loop para controlar o movimento do personagem enquanto voa (para dispositivos móveis)
     while flying do
-        -- Move o personagem na direção da câmera
-        local forwardVector = cam.CFrame.LookVector * flySpeed
-        rootPart.CFrame = rootPart.CFrame + forwardVector
+        -- Move o personagem na direção da câmera (para dispositivos móveis)
+        local forwardVector =
+            cam.CFrame.LookVector * flySpeed * userInputService.TouchPan.Z / math.abs(userInputService.TouchPan.Z)
+        local rightVector =
+            cam.CFrame.RightVector * flySpeed * userInputService.TouchPan.X / math.abs(userInputService.TouchPan.X)
+        rootPart.CFrame =
+            rootPart.CFrame + forwardVector + rightVector + Vector3.new(0,
+                                                                         userInputService.TouchPinch,
+                                                                         0)
         wait()
     end
+
+    -- Desconecta os eventos de entrada do usuário quando parar de voar
+    connectionForwardBackward:Disconnect()
+    connectionLeftRight:Disconnect()
+    connectionUpDown:Disconnect()
 end
 
 -- Função para parar de voar
