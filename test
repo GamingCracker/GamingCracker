@@ -1,12 +1,6 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
--- Criando uma Janela
-local Window = OrionLib:MakeWindow({
-    Name = "Furius Hub",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "OrionTest"
-})
+local Window = OrionLib:MakeWindow({Name = "Furius Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 -- Criando uma Aba
 local Tab = Window:MakeTab({
