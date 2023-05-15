@@ -10,6 +10,14 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+Tab:AddToggle({
+	Name = "Auto Farm",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
 local player = game.Players.LocalPlayer
 
 -- function to check if player has skill
@@ -122,7 +130,7 @@ local function getCurrentIsland()
         local islandPart = workspace:FindFirstChild(island)
         if islandPart then
             local distance = (islandPart.Position - position).Magnitude
-            if distance < 1000 then -- adjust this value as needed
+            if distance < 31000 then -- adjust this value as needed
                 return island
             end
         end
@@ -188,7 +196,7 @@ character.HumanoidRootPart.Changed:Connect(function()
         local islandPart = workspace:FindFirstChild(island)
         if islandPart then
             local distance = (islandPart.Position - position).Magnitude
-            if distance < 1000 then -- adjust this value as needed
+            if distance < 30000 then -- adjust this value as needed
                 setSpawn(island)
                 break
             end
