@@ -210,10 +210,7 @@ character.HumanoidRootPart.Changed:Connect(function()
     end
 end)
 
-
 local autoStatsFruit = false
-local autoStatsDefense = false
-local autoStatsMelee = false
 
 Tab:AddToggle({
 	Name = "Auto Fruit",
@@ -223,39 +220,11 @@ Tab:AddToggle({
 	end    
 })
 
-Tab:AddToggle({
-	Name = "Auto Defense",
-	Default = false,
-	Callback = function(Value)
-		autoStatsDefense = Value
-	end    
-})
-
-Tab:AddToggle({
-	Name = "Auto Melee",
-	Default = false,
-	Callback = function(Value)
-		autoStatsMelee = Value
-	end    
-})
-
-local function autoStat(statName)
+local function autoStatFruit()
 	while wait(1) do
-		if statName == "Fruit" and autoStatsFruit then
+		if autoStatsFruit then
 			local args = {
 				[1] = "Fruit",
-				[2] = 1
-			}
-			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-		elseif statName == "Defense" and autoStatsDefense then
-			local args = {
-				[1] = "Defense",
-				[2] = 1
-			}
-			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-		elseif statName == "Melee" and autoStatsMelee then
-			local args = {
-				[1] = "Melee",
 				[2] = 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
@@ -263,6 +232,4 @@ local function autoStat(statName)
 	end
 end
 
-coroutine.wrap(autoStat)("Fruit")
-coroutine.wrap(autoStat)("Defense")
-coroutine.wrap(autoStat)("Melee")
+coroutine.wrap(autoStatFruit)()
