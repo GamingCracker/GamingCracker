@@ -110,7 +110,7 @@ local Tab = Window:MakeTab({
 
 
 -- Criando uma Aba
-local Tab1 = Window:MakeTab({
+local Tab = Window:MakeTab({
     Name = "Player",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
@@ -119,7 +119,7 @@ local Tab1 = Window:MakeTab({
 local selectedPlayer = nil
 
 -- Criando uma Lista
-local playerList = Tab1:AddList({
+local playerList = Tab:AddList({
     Name = "Jogadores",
     Callback = function(Value)
         selectedPlayer = Value
@@ -132,7 +132,7 @@ for i, v in pairs(game.Players:GetPlayers()) do
 end
 
 -- Criando um Botão de Atualização
-Tab1:AddButton({
+Tab:AddButton({
     Name = "Refresh",
     Callback = function()
         -- Limpando a lista
@@ -146,7 +146,7 @@ Tab1:AddButton({
 })
 
 -- Criando um Botão TP
-Tab1:AddButton({
+Tab:AddButton({
     Name = "TP",
     Callback = function()
         if selectedPlayer then
