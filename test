@@ -109,8 +109,61 @@ local Tab = Window:MakeTab({
 })
 
 
+-- Criando uma Aba
+local Tab1 = Window:MakeTab({
+    Name = "Player",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
+local selectedPlayer = nil
 
+-- Criando uma Lista
+local playerList = Tab1:AddList({
+    Name = "Jogadores",
+    Callback = function(Value)
+        selectedPlayer = Value
+    end
+})
+
+-- Preenchendo a lista com os jogadores do jogo
+for i, v in pairs(game.Players:GetPlayers()) do
+    playerList:Add(v.Name)
+end
+
+-- Criando um Botão de Atualização
+Tab1:AddButton({
+    Name = "Refresh",
+    Callback = function()
+        -- Limpando a lista
+        playerList:Clear()
+
+        -- Preenchendo a lista com os jogadores do jogo
+        for i, v in pairs(game.Players:GetPlayers()) do
+            playerList:Add(v.Name)
+        end
+    end
+})
+
+-- Criando um Botão TP
+Tab1:AddButton({
+    Name = "TP",
+    Callback = function()
+        if selectedPlayer then
+            local plr = game.Players.LocalPlayer
+            local char = plr.Character
+            local rootPart = char:FindFirstChild("HumanoidRootPart")
+            local targetPlr = game.Players:FindFirstChild(selectedPlayer)
+            if targetPlr then
+                local targetChar = targetPlr.Character
+                local targetRootPart = targetChar:FindFirstChild("HumanoidRootPart")
+                if targetRootPart then
+                    rootPart.CFrame = targetRootPart.CFrame * CFrame.new(0, 5, 0)
+                end
+            end
+        end
+    end
+})
 
 -- Criando um Alternador de Caixa de Seleção
 Tab:AddToggle({
@@ -123,12 +176,3 @@ Tab:AddToggle({
 
 -- Alterando o valor de um Alternador existente
 CoolToggle:Set(true)
-
--- Criando um Seletor de Cores
-Tab:AddColorpicker({
-    Name = "Seletor de Cores",
-    Default = Color3.fromRGB(255, 0, 0),
-    Callback = function(Value)
-        print(Value)
-    end
-})
