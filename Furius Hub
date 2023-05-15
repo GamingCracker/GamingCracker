@@ -27,6 +27,7 @@ local function attackNPC(npcName)
     end
 end
 
+
 Tab:AddToggle({
     Name = "Auto Farm Boggy",
     Default = false,
@@ -40,63 +41,6 @@ Tab:AddToggle({
     end
 })
 
-local Tab = Window:MakeTab({
-	Name = "Auto Stats",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local autoStatsFruit = false
-local autoStatsDefense = false
-local autoStatsMelee = false
-
-Tab:AddToggle({
-	Name = "Auto Fruit",
-	Default = false,
-	Callback = function(Value)
-		autoStatsFruit = Value
-	end    
-})
-
-Tab:AddToggle({
-	Name = "Auto Defense",
-	Default = false,
-	Callback = function(Value)
-		autoStatsDefense = Value
-	end    
-})
-
-Tab:AddToggle({
-	Name = "Auto Melee",
-	Default = false,
-	Callback = function(Value)
-		autoStatsMelee = Value
-	end    
-})
-
-while wait(1) do
-	if autoStatsFruit then
-		local args = {
-			[1] = "Fruit",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-	end
-	if autoStatsDefense then
-		local args = {
-			[1] = "Defense",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-	end
-	if autoStatsMelee then
-		local args = {
-			[1] = "Melee",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-	end
-end
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
@@ -265,3 +209,62 @@ character.HumanoidRootPart.Changed:Connect(function()
         end
     end
 end)
+
+
+local Tab = Window:MakeTab({
+	Name = "Auto Stats",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local autoStatsFruit = false
+local autoStatsDefense = false
+local autoStatsMelee = false
+
+Tab:AddToggle({
+	Name = "Auto Fruit",
+	Default = false,
+	Callback = function(Value)
+		autoStatsFruit = Value
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Auto Defense",
+	Default = false,
+	Callback = function(Value)
+		autoStatsDefense = Value
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Auto Melee",
+	Default = false,
+	Callback = function(Value)
+		autoStatsMelee = Value
+	end    
+})
+
+while wait(1) do
+	if autoStatsFruit then
+		local args = {
+			[1] = "Fruit",
+			[2] = 1
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+	end
+	if autoStatsDefense then
+		local args = {
+			[1] = "Defense",
+			[2] = 1
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+	end
+	if autoStatsMelee then
+		local args = {
+			[1] = "Melee",
+			[2] = 1
+		}
+		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+	end
+end
