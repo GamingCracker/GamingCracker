@@ -71,13 +71,13 @@ Tab:AddButton({
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
-        local targetPosition = Vector3.new(-5126, 27, 4319)
+        local targetPosition = Vector3.new(-2005,47, 6353)
         character:MoveTo(targetPosition)
     end
 })
 
 Tab:AddButton({
-    Name = "Fishman Par",
+    Name = "Fishman Park",
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
@@ -91,12 +91,20 @@ Tab:AddButton({
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
-        local targetPosition = Vector3.new(-5126, 27, 4319)
+        local targetPosition = Vector3.new(-2289, 31, 2143)
         character:MoveTo(targetPosition)
     end
 })
 
-
+Tab:AddButton({
+    Name = "Wreck Rock",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(-283, 234, 4148)
+        character:MoveTo(targetPosition)
+    end
+})
 
 local Tab = Window:MakeTab({
 	Name = "Spawn",
