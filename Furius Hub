@@ -10,7 +10,6 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local npcs = {"Higuma", "Boggy"}
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -28,44 +27,18 @@ local function attackNPC(npcName)
     end
 end
 
-for _, npcName in pairs(npcs) do
-    Tab:AddToggle({
-        Name = "Auto Farm " .. npcName,
-        Default = false,
-        Callback = function(Value)
-            if Value then
-                while Value do
-                    attackNPC(npcName)
-                    wait(0.01) -- adjust this value for faster attacks
-                end
-            end
-        end
-    })
-end
-
-local bringAllNPCs = false
-
 Tab:AddToggle({
-    Name = "Bring all NPCs",
+    Name = "Auto Farm Boggy",
     Default = false,
     Callback = function(Value)
-        bringAllNPCs = Value
-    end
-})
-
-while true do
-    if bringAllNPCs then
-        for _, npcName in pairs(npcs) do
-            for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
-                if v.Name == npcName then
-                    local enemy = v
-                    enemy:SetPrimaryPartCFrame(character.HumanoidRootPart.CFrame * CFrame.new(0,10,0))
-                end
+        if Value then
+            while Value do
+                attackNPC("Boggy")
+                wait(0.1) -- adjust this value for faster attacks
             end
         end
     end
-    wait(0.1) -- adjust this value as needed
-end
+})
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
