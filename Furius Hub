@@ -53,14 +53,24 @@ for _, npcName in pairs(npcs) do
     })
 end
 
-Tab:AddButton({
+local bringAllNPCs = false
+
+Tab:AddToggle({
     Name = "Bring all NPCs",
-    Callback = function()
+    Default = false,
+    Callback = function(Value)
+        bringAllNPCs = Value
+    end
+})
+
+while true do
+    if bringAllNPCs then
         for _, npcName in pairs(npcs) do
             pullNPCs(npcName)
         end
     end
-})
+    wait(0.1) -- adjust this value as needed
+end
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
