@@ -10,7 +10,7 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local npcName = "" -- variable to store the name of the NPC entered by the user
+local npcs = {"Pillager", "Higuma", "Soldier", "Captain Axe", "Clown Pirate", "Boggy"}
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -37,55 +37,20 @@ local function pullNPCs(npcName)
     end
 end
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer.PlayerGui
-
-local textBox = Instance.new("TextBox")
-textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(0.5, -100, 0.1, 0)
-textBox.TextColor3 = Color3.new(1, 1, 1)
-textBox.BackgroundTransparency = 0.5
-textBox.TextScaled = true
-textBox.PlaceholderText = "Enter NPC Name"
-textBox.Parent = screenGui
-
-textBox.FocusLost:Connect(function(enterPressed)
-    if enterPressed then
-        local npcName = textBox.Text
-        print("NPC Name: " .. npcName)
-    end
-end)
-
-Tab:AddToggle({
-    Name = "Auto Farm",
-    Default = false,
-    Callback = function(Value)
-        if Value then
-            while Value do
-                attackNPC(npcName)
-                pullNPCs(npcName)
-                wait(1)
+for _, npcName in pairs(npcs) do
+    Tab:AddToggle({
+        Name = "Auto Farm " .. npcName,
+        Default = false,
+        Callback = function(Value)
+            if Value then
+                while Value do
+                    attackNPC(npcName)
+                    pullNPCs(npcName)
+                    wait(1)
+                end
             end
         end
-    end
-})
-
-local player = game.Players.LocalPlayer
-
--- function to check if player has skill
-local function hasSkill(player, skillName)
-    return player:FindFirstChild(skillName) ~= nil
-end
-
--- function to activate skill
-local function activateSkill(player, skillName)
-    local skill = Instance.new("BoolValue", player)
-    skill.Name = skillName
-end
-
--- check if player has skill and activate it if not
-if not hasSkill(player, "IronWill") then
-    activateSkill(player, "IronWill")
+    })
 end
 
 local Tab = Window:MakeTab({
