@@ -37,12 +37,24 @@ local function pullNPCs(npcName)
     end
 end
 
-Tab:AddTextBox({
-    Name = "NPC Name",
-    Callback = function(Value)
-        npcName = Value
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+local textBox = Instance.new("TextBox")
+textBox.Size = UDim2.new(0, 200, 0, 50)
+textBox.Position = UDim2.new(0.5, -100, 0.1, 0)
+textBox.TextColor3 = Color3.new(1, 1, 1)
+textBox.BackgroundTransparency = 0.5
+textBox.TextScaled = true
+textBox.PlaceholderText = "Enter NPC Name"
+textBox.Parent = screenGui
+
+textBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local npcName = textBox.Text
+        print("NPC Name: " .. npcName)
     end
-})
+end)
 
 Tab:AddToggle({
     Name = "Auto Farm",
