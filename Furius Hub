@@ -203,3 +203,23 @@ character.HumanoidRootPart.Changed:Connect(function()
         end
     end
 end)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player.PlayerGui
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(0, 200, 0, 50)
+textLabel.Position = UDim2.new(0.5, -100, 0.1, 0)
+textLabel.TextColor3 = Color3.new(1, 1, 1)
+textLabel.BackgroundTransparency = 0.5
+textLabel.TextScaled = true
+textLabel.Parent = screenGui
+
+while true do
+    local position = character.HumanoidRootPart.Position
+    textLabel.Text = "X: " .. math.floor(position.X) .. ", Y: " .. math.floor(position.Y) .. ", Z: " .. math.floor(position.Z)
+    wait(1)
+end
