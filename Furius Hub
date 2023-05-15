@@ -9,21 +9,23 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-Tab:AddButton({
-    Name = "Button!",
-    Callback = function()
-        local player = game.Players.LocalPlayer
-        local hasSkill = player:FindFirstChild("IronWill")
-        if hasSkill then
-            -- deactivate skill
-            player.IronWill:Destroy()
-        else
-            -- activate skill
-            local skill = Instance.new("BoolValue", player)
-            skill.Name = "IronWill"
-        end
-    end
-})
+local player = game.Players.LocalPlayer
+
+-- function to check if player has skill
+local function hasSkill(player, skillName)
+    return player:FindFirstChild(skillName) ~= nil
+end
+
+-- function to activate skill
+local function activateSkill(player, skillName)
+    local skill = Instance.new("BoolValue", player)
+    skill.Name = skillName
+end
+
+-- check if player has skill and activate it if not
+if not hasSkill(player, "IronWill") then
+    activateSkill(player, "IronWill")
+end
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
@@ -31,11 +33,96 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+
+Tab:AddButton({
+    Name = "Pirate Island",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(2029, 85, 2552)
+        character:MoveTo(targetPosition)
+    end
+})
+
+
+Tab:AddButton({
+    Name = "Sailor Town",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(2029, 85, 2552)
+        character:MoveTo(targetPosition)
+    end
+})
+
+Tab:AddButton({
+    Name = "Pepper Town",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(-5126, 27, 4319)
+        character:MoveTo(targetPosition)
+    end
+})
+
+
+
 local Tab = Window:MakeTab({
-	Name = "Config",
+	Name = "Spawn",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
+
+Tab:AddButton({
+    Name = "Spawn Boat Pepper Town",
+    Callback = function()
+        local args = {
+            [1] = "Spawn",
+            [2] = "Dinghy",
+            [3] = "PepperTown"
+        }
+        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+    end
+})
+
+Tab:AddButton({
+    Name = "Spawn Cruiser Sailor Town",
+    Callback = function()
+        local args = {
+            [1] = "Spawn",
+            [2] = "Cruiser",
+            [3] = "SailorTown"
+        }
+        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+    end
+})
+
+
+Tab:AddButton({
+    Name = "Spawn Boat Pepper Town",
+    Callback = function()
+        local args = {
+            [1] = "Spawn",
+            [2] = "Dinghy",
+            [3] = "PepperTown"
+        }
+        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+    end
+})
+
+Tab:AddButton({
+    Name = "Spawn Cruiser Pepper Town",
+    Callback = function()
+        local args = {
+            [1] = "Spawn",
+            [2] = "Cruiser",
+            [3] = "PepperTown"
+        }
+        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+    end
+})
+
+
 
 local Tab = Window:MakeTab({
 	Name = "Player",
