@@ -10,12 +10,52 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local npcName = "" -- variable to store the name of the NPC entered by the user
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local function attackNPC(npcName)
+    local npc = workspace:WaitForChild("ReplicatedChunks"):FindFirstChild(npcName)
+    if npc then
+        character:SetPrimaryPartCFrame(npc.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+        local args = {
+            [1] = game:GetService("Players").LocalPlayer.Character.Punch,
+            [2] = npc
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+    end
+end
+
+local function pullNPCs(npcName)
+    for _, npc in pairs(workspace:WaitForChild("ReplicatedChunks"):GetChildren()) do
+        if npc.Name == npcName then
+            local distance = (npc.PrimaryPart.Position - character.HumanoidRootPart.Position).Magnitude
+            if distance < 100 then -- adjust this value as needed
+                npc:SetPrimaryPartCFrame(character.HumanoidRootPart.CFrame * CFrame.new(0,10,0))
+            end
+        end
+    end
+end
+
+Tab:AddTextBox({
+    Name = "NPC Name",
+    Callback = function(Value)
+        npcName = Value
+    end
+})
+
 Tab:AddToggle({
-	Name = "Auto Farm",
-	Default = false,
-	Callback = function(Value)
-		print(Value)
-	end    
+    Name = "Auto Farm",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            while Value do
+                attackNPC(npcName)
+                pullNPCs(npcName)
+                wait(1)
+            end
+        end
+    end
 })
 
 local player = game.Players.LocalPlayer
