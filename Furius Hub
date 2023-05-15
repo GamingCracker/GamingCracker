@@ -40,7 +40,7 @@ Tab:AddButton({
     Callback = function()
         local player = game.Players.LocalPlayer
         local character = player.Character or player.CharacterAdded:Wait()
-        local targetPosition = Vector3.new(2029, 85, 2552)
+        local targetPosition = Vector3.new(1986, 29, 5454)
         character:MoveTo(targetPosition)
     end
 })
@@ -66,6 +66,36 @@ Tab:AddButton({
     end
 })
 
+Tab:AddButton({
+    Name = "Maple Village",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(-5126, 27, 4319)
+        character:MoveTo(targetPosition)
+    end
+})
+
+Tab:AddButton({
+    Name = "Fishman Par",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(-5126, 27, 4319)
+        character:MoveTo(targetPosition)
+    end
+})
+
+Tab:AddButton({
+    Name = "Traveler Town",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local targetPosition = Vector3.new(-5126, 27, 4319)
+        character:MoveTo(targetPosition)
+    end
+})
+
 
 
 local Tab = Window:MakeTab({
@@ -74,60 +104,86 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-Tab:AddButton({
-    Name = "Spawn Boat Pepper Town",
-    Callback = function()
-        local args = {
-            [1] = "Spawn",
-            [2] = "Dinghy",
-            [3] = "PepperTown"
-        }
-        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
-    end
-})
+local islands = {"PirateIsland", "SailorTown", "MapleVillage", "FishmanPark", "TravelerTown"}
 
-Tab:AddButton({
-    Name = "Spawn Cruiser Sailor Town",
-    Callback = function()
-        local args = {
-            [1] = "Spawn",
-            [2] = "Cruiser",
-            [3] = "SailorTown"
-        }
-        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+local function getCurrentIsland()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local position = character.HumanoidRootPart.Position
+    for _, island in pairs(islands) do
+        local islandPart = workspace:FindFirstChild(island)
+        if islandPart then
+            local distance = (islandPart.Position - position).Magnitude
+            if distance < 1000 then -- adjust this value as needed
+                return island
+            end
+        end
     end
-})
-
+    return nil
+end
 
 Tab:AddButton({
-    Name = "Spawn Boat Pepper Town",
+    Name = "Spawn Boat on Current Island",
     Callback = function()
-        local args = {
-            [1] = "Spawn",
-            [2] = "Dinghy",
-            [3] = "PepperTown"
-        }
-        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+        local currentIsland = getCurrentIsland()
+        if currentIsland then
+            local args = {
+                [1] = "Spawn",
+                [2] = "Dinghy",
+                [3] = currentIsland
+            }
+            game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+        else
+            print("Not on an island")
+        end
     end
 })
-
-Tab:AddButton({
-    Name = "Spawn Cruiser Pepper Town",
-    Callback = function()
-        local args = {
-            [1] = "Spawn",
-            [2] = "Cruiser",
-            [3] = "PepperTown"
-        }
-        game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
-    end
-})
-
 
 
 local Tab = Window:MakeTab({
-	Name = "Player",
+	Name = "Config",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
+Tab:AddButton({
+    Name = "Anti Afk",
+    Callback = function()
+        local VirtualUser=game:service'VirtualUser'
+        game:service'Players'.LocalPlayer.Idled:connect(function()
+            VirtualUser:CaptureController()
+            VirtualUser:ClickButton2(Vector2.new())
+        end)
+    end
+})
+
+
+
+
+
+local islands = {"PirateIsland", "SailorTown", "PapperTown", "MapleVillage", "FishmanPark", "TravelerTown"}
+
+local function setSpawn(island)
+    local args = {
+        [1] = "Spawn",
+        [2] = island
+    }
+    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
+end
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+character.HumanoidRootPart.Changed:Connect(function()
+    local position = character.HumanoidRootPart.Position
+    for _, island in pairs(islands) do
+        local islandPart = workspace:FindFirstChild(island)
+        if islandPart then
+            local distance = (islandPart.Position - position).Magnitude
+            if distance < 1000 then -- adjust this value as needed
+                setSpawn(island)
+                break
+            end
+        end
+    end
+end)
