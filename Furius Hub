@@ -1,4 +1,5 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 
 local Window = OrionLib:MakeWindow({Name = "Furius | Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
