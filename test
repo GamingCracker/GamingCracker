@@ -1,132 +1,268 @@
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "MRchorfla Hub", HidePremium = false, IntroText = "Mrchorfla Hub", SaveConfig = true, ConfigFolder = "MRchorflaConfig"})
 
--- Cria o ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "FlyGUI"
-screenGui.Parent = game.CoreGui
+---------------------------------------------------
 
--- Cria o Frame
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0.2, 0, 0.3, 0)
-frame.Position = UDim2.new(0.8, 0, 0.7, 0)
-frame.Parent = screenGui
+local Tab = Window:MakeTab({
+	Name = "main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+local Section = Tab:AddSection({
+	Name = "all here"
+})
 
--- Cria o botão de voar
-local flyButton = Instance.new("TextButton")
-flyButton.Text = "Fly"
-flyButton.Size = UDim2.new(0.9, 0, 0.3, 0)
-flyButton.Position = UDim2.new(0.05, 0, 0.1, 0)
-flyButton.Parent = frame
+Tab:AddButton({
+	Name = "Dark Dex",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()  
+  	end    
+})
 
--- Cria o botão de parar de voar
-local stopFlyButton = Instance.new("TextButton")
-stopFlyButton.Text = "Stop Fly"
-stopFlyButton.Size = UDim2.new(0.9, 0, 0.3, 0)
-stopFlyButton.Position = UDim2.new(0.05, 0, 0.5, 0)
-stopFlyButton.Parent = frame
+Tab:AddButton({
+	Name = "c00lk1d GUI",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/HupHupscripts/Scripts/master/coolkids'))()
+  	end    
+})
 
--- Cria a caixa de texto para ajustar a velocidade
-local speedBox = Instance.new("TextBox")
-speedBox.Text = "Speed"
-speedBox.Size = UDim2.new(0.4, 0, 0.2, 0)
-speedBox.Position = UDim2.new(0.3, 0, 0.85, 0)
-speedBox.Parent = frame
+Tab:AddButton({
+	Name = "Fly",
+	Callback = function()
+		loadstring("\108\111\97\100\115\116\114\105\110\103\40\103\97\109\101\58\72\116\116\112\71\101\116\40\40\39\104\116\116\112\115\58\47\47\103\105\115\116\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109\47\109\101\111\122\111\110\101\89\84\47\98\102\48\51\55\100\102\102\57\102\48\97\55\48\48\49\55\51\48\52\100\100\100\54\55\102\100\99\100\51\55\48\47\114\97\119\47\101\49\52\101\55\52\102\52\50\53\98\48\54\48\100\102\53\50\51\51\52\51\99\102\51\48\98\55\56\55\48\55\52\101\98\51\99\53\100\50\47\97\114\99\101\117\115\37\50\53\50\48\120\37\50\53\50\48\102\108\121\37\50\53\50\48\50\37\50\53\50\48\111\98\102\108\117\99\97\116\111\114\39\41\44\116\114\117\101\41\41\40\41\10\10")()
+  	end    
+})
 
--- Variáveis ​​para controlar o voo
-local flying = false
-local flySpeed = 1
+Tab:AddButton({
+	Name = "Infinite Yield",
+	Callback = function()
+		loadstring(game:HttpGet("https://cdn.wearedevs.net/scripts/Infinite%20Yield.txt"))()
+  	end    
+})
 
--- Função para começar a voar
-local function startFly()
-    local plr = game.Players.LocalPlayer
-    local char = plr.Character
-    local rootPart = char:FindFirstChild("HumanoidRootPart")
-    local cam = workspace.CurrentCamera
-    local userInputService = game:GetService("UserInputService")
+Tab:AddButton({
+	Name = "Simple Spy",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/CoochieSlayer6372/SimpleSpyFixed/main/badscript2.lua"))()
+  	end    
+})
 
-    flying = true
+Tab:AddButton({
+	Name = "loadstring maker",
+	Callback = function()
+		loadstring(game:HttpGet('https://gist.githubusercontent.com/zusqs/af1afec904c24633129bb7defa6513f9/raw/4ededd2380d1734d560b72e6c55803415f4f4146/loadstring%2520maker'))()
+  	end    
+})
 
-    -- Desativa o colisor do personagem
-    char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics)
 
-    -- Conecta os eventos de entrada do usuário para controlar o movimento do personagem enquanto voa
-    local connectionForwardBackward
-    connectionForwardBackward =
-        userInputService.InputChanged:Connect(function(input)
-            if input.KeyCode == Enum.KeyCode.W then
-                rootPart.CFrame =
-                    rootPart.CFrame + cam.CFrame.LookVector * flySpeed
-            elseif input.KeyCode == Enum.KeyCode.S then
-                rootPart.CFrame =
-                    rootPart.CFrame - cam.CFrame.LookVector * flySpeed
-            end
-        end)
 
-    local connectionLeftRight
-    connectionLeftRight =
-        userInputService.InputChanged:Connect(function(input)
-            if input.KeyCode == Enum.KeyCode.A then
-                rootPart.CFrame =
-                    rootPart.CFrame - cam.CFrame.RightVector * flySpeed
-            elseif input.KeyCode == Enum.KeyCode.D then
-                rootPart.CFrame =
-                    rootPart.CFrame + cam.CFrame.RightVector * flySpeed
-            end
-        end)
 
-    local connectionUpDown
-    connectionUpDown =
-        userInputService.InputChanged:Connect(function(input)
-            if input.KeyCode == Enum.KeyCode.Space then
-                rootPart.CFrame =
-                    rootPart.CFrame + Vector3.new(0, flySpeed, 0)
-            elseif input.KeyCode == Enum.KeyCode.LeftControl then
-                rootPart.CFrame =
-                    rootPart.CFrame - Vector3.new(0, flySpeed, 0)
-            end
-        end)
 
-    -- Loop para controlar o movimento do personagem enquanto voa (para dispositivos móveis)
-    while flying do
-        -- Move o personagem na direção da câmera (para dispositivos móveis)
-        local forwardVector =
-            cam.CFrame.LookVector * flySpeed * userInputService.TouchPan.Z /
-                math.abs(userInputService.TouchPan.Z)
-        local rightVector =
-            cam.CFrame.RightVector * flySpeed * userInputService.TouchPan.X /
-                math.abs(userInputService.TouchPan.X)
-        rootPart.CFrame =
-            rootPart.CFrame + forwardVector + rightVector +
-                Vector3.new(0,
-                            userInputService.TouchPinch,
-                            0)
-        wait()
-    end
+-------------------------------------------------------------
 
-    -- Desconecta os eventos de entrada do usuário quando parar de voar
-    connectionForwardBackward:Disconnect()
-    connectionLeftRight:Disconnect()
-    connectionUpDown:Disconnect()
-end
+local Tab = Window:MakeTab({
+	Name = "LocalPlayer",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
 
--- Função para parar de voar
-local function stopFly()
-    flying = false
+local Section = Tab:AddSection({
+	Name = "here"
+})
 
-    -- Reativa o colisor do personagem
-    local plr = game.Players.LocalPlayer
-    local char = plr.Character
-    char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.GettingUp)
-end
 
--- Conecta os botões às funções de voar e parar de voar
-flyButton.MouseButton1Click:Connect(startFly)
-stopFlyButton.MouseButton1Click:Connect(stopFly)
+Tab:AddSlider({
+	Name = "WalkSpeed",
+	Min = 16,
+	Max = 500,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "WalkSpeed",
+	Callback = function(s)
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+	end    
+})
+Tab:AddSlider({
+	Name = "JumpPower",
+	Min = 40,
+	Max = 500,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "JumpPower",
+	Callback = function(s)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+	end    
+})
 
--- Conecta a caixa de texto à variável de velocidade de voo
-speedBox.FocusLost:Connect(function()
-    local speed = tonumber(speedBox.Text)
-    if speed then
-        flySpeed = speed
-    end
-end)
+local Section = Tab:AddSection({
+	Name = "animations"
+})
+
+Tab:AddButton({
+	Name = "Nullware V3(may kick)",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/raw/GBg7MSCW'))()
+  	end    
+})
+
+
+
+
+
+
+--------------------------------------------------------------
+
+local Tab = Window:MakeTab({
+	Name = "PetSimX",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+Tab:AddButton({
+	Name = "Project WD",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Muhammad6196/Project-WD/main/Mainstring.lua"))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "milkup",
+	Callback = function()
+		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a82cd5447cbbc4c7be0e8db405555787.lua"))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Name",
+	Callback = function()
+		
+  	end    
+})
+
+----------------------------------------------------------------------------
+
+local Tab = Window:MakeTab({
+	Name = "Dahood",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddLabel("all script needs to be in group")
+Tab:AddLabel("auto copies group link on clipboard")
+
+Tab:AddButton({
+	Name = "zapped",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/grekkk/relases/main/zapped.lua'))()
+  	end  
+})
+
+Tab:AddButton({
+	Name = "infinity hood",
+	Callback = function()
+		loadstring(game:HttpGet('https://pastebin.com/raw/5Fm3eVwg'))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "dropped cash counter",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Crostide/Counter/main/Cash"))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Crostide GUI",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Crostide/cdhc/main/gui"))()
+  	end    
+})
+
+------------------------------------------------------------------------
+
+local Tab = Window:MakeTab({
+	Name = "Bedwars",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Vape V4",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Sigma",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/OofHead-FE/Sigma-Jello/main/RobloxSigma5.lua",true))()
+  	end    
+})
+
+----------------------------------------------------------------------
+
+local Tab = Window:MakeTab({
+	Name = "BloxFruit",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "HoHO Hub(has fruit rain)",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI'))()
+  	end    
+})
+Tab:AddLabel("HoHo Key: IGLdZ9ZHZT")
+
+
+Tab:AddButton({
+	Name = "Rasputin GUI",
+	Callback = function()
+		loadstring(game:HttpGet("https://rasputin-bf.glitch.me/bloxfruits.lua"))()
+  	end    
+})
+
+
+Tab:AddButton({
+	Name = "Zee Hub",
+	Callback = function()
+		loadstring(game:HttpGet("https://scriptdee.com/free/ZeeHubNew.lua"))()
+  	end    
+})
+
+
+Tab:AddButton({
+	Name = "Zen Hub",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Kaizenofficiall/ZenHub/main/Loader", true))()
+  	end    
+})
+
+----------------------------------------------------------------------
+
+local Tab = Window:MakeTab({
+	Name = "GUI Destroy",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Destroy",
+	Callback = function()
+		OrionLib:Destroy()
+  	end    
+})
+
+
+
+
+
+
+
+
+OrionLib:Init()
