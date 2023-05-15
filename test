@@ -1,1 +1,79 @@
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "FlyGUI"
+screenGui.Parent = game.CoreGui
+
+-- Cria o Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.2, 0, 0.3, 0)
+frame.Position = UDim2.new(0.8, 0, 0.7, 0)
+frame.Parent = screenGui
+
+-- Cria o botão de voar
+local flyButton = Instance.new("TextButton")
+flyButton.Text = "Fly"
+flyButton.Size = UDim2.new(0.9, 0, 0.3, 0)
+flyButton.Position = UDim2.new(0.05, 0, 0.1, 0)
+flyButton.Parent = frame
+
+-- Cria o botão de parar de voar
+local stopFlyButton = Instance.new("TextButton")
+stopFlyButton.Text = "Stop Fly"
+stopFlyButton.Size = UDim2.new(0.9, 0, 0.3, 0)
+stopFlyButton.Position = UDim2.new(0.05, 0, 0.5, 0)
+stopFlyButton.Parent = frame
+
+-- Cria a caixa de texto para ajustar a velocidade
+local speedBox = Instance.new("TextBox")
+speedBox.Text = "Speed"
+speedBox.Size = UDim2.new(0.4, 0, 0.2, 0)
+speedBox.Position = UDim2.new(0.3, 0, 0.85, 0)
+speedBox.Parent = frame
+
+-- Variáveis ​​para controlar o voo
+local flying = false
+local flySpeed = 1
+
+-- Função para começar a voar
+local function startFly()
+    local plr = game.Players.LocalPlayer
+    local char = plr.Character
+    local rootPart = char:FindFirstChild("HumanoidRootPart")
+    local cam = workspace.CurrentCamera
+
+    flying = true
+
+    -- Desativa o colisor do personagem
+    char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.Physics)
+
+    -- Loop para controlar o movimento do personagem enquanto voa
+    while flying do
+        -- Move o personagem na direção da câmera
+        local forwardVector = cam.CFrame.LookVector * flySpeed
+        rootPart.CFrame = rootPart.CFrame + forwardVector
+        wait()
+    end
+end
+
+-- Função para parar de voar
+local function stopFly()
+    flying = false
+
+    -- Reativa o colisor do personagem
+    local plr = game.Players.LocalPlayer
+    local char = plr.Character
+    char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.GettingUp)
+end
+
+-- Conecta os botões às funções de voar e parar de voar
+flyButton.MouseButton1Click:Connect(startFly)
+stopFlyButton.MouseButton1Click:Connect(stopFly)
+
+-- Conecta a caixa de texto à variável de velocidade de voo
+speedBox.FocusLost:Connect(function()
+    local speed = tonumber(speedBox.Text)
+    if speed then
+        flySpeed = speed
+    end
+end)
