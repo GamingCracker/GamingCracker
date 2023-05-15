@@ -51,24 +51,28 @@ local function startFly()
 
     -- Conecta os eventos de entrada do usuário para controlar o movimento do personagem enquanto voa
     local connectionForwardBackward
-    connectionForwardBackward = userInputService.InputChanged:Connect(function(input)
-        if input.KeyCode == Enum.KeyCode.W then
-            rootPart.CFrame = rootPart.CFrame + cam.CFrame.LookVector * flySpeed
-        elseif input.KeyCode == Enum.KeyCode.S then
-            rootPart.CFrame = rootPart.CFrame - cam.CFrame.LookVector * flySpeed
-        end
-    end)
+    connectionForwardBackward =
+        userInputService.InputChanged:Connect(function(input)
+            if input.KeyCode == Enum.KeyCode.W then
+                rootPart.CFrame =
+                    rootPart.CFrame + cam.CFrame.LookVector * flySpeed
+            elseif input.KeyCode == Enum.KeyCode.S then
+                rootPart.CFrame =
+                    rootPart.CFrame - cam.CFrame.LookVector * flySpeed
+            end
+        end)
 
     local connectionLeftRight
-    connectionLeftRight = userInputService.InputChanged:Connect(function(input)
-        if input.KeyCode == Enum.KeyCode.A then
-            rootPart.CFrame =
-                rootPart.CFrame - cam.CFrame.RightVector * flySpeed
-        elseif input.KeyCode == Enum.KeyCode.D then
-            rootPart.CFrame =
-                rootPart.CFrame + cam.CFrame.RightVector * flySpeed
-        end
-    end)
+    connectionLeftRight =
+        userInputService.InputChanged:Connect(function(input)
+            if input.KeyCode == Enum.KeyCode.A then
+                rootPart.CFrame =
+                    rootPart.CFrame - cam.CFrame.RightVector * flySpeed
+            elseif input.KeyCode == Enum.KeyCode.D then
+                rootPart.CFrame =
+                    rootPart.CFrame + cam.CFrame.RightVector * flySpeed
+            end
+        end)
 
     local connectionUpDown
     connectionUpDown =
@@ -86,13 +90,16 @@ local function startFly()
     while flying do
         -- Move o personagem na direção da câmera (para dispositivos móveis)
         local forwardVector =
-            cam.CFrame.LookVector * flySpeed * userInputService.TouchPan.Z / math.abs(userInputService.TouchPan.Z)
+            cam.CFrame.LookVector * flySpeed * userInputService.TouchPan.Z /
+                math.abs(userInputService.TouchPan.Z)
         local rightVector =
-            cam.CFrame.RightVector * flySpeed * userInputService.TouchPan.X / math.abs(userInputService.TouchPan.X)
+            cam.CFrame.RightVector * flySpeed * userInputService.TouchPan.X /
+                math.abs(userInputService.TouchPan.X)
         rootPart.CFrame =
-            rootPart.CFrame + forwardVector + rightVector + Vector3.new(0,
-                                                                         userInputService.TouchPinch,
-                                                                         0)
+            rootPart.CFrame + forwardVector + rightVector +
+                Vector3.new(0,
+                            userInputService.TouchPinch,
+                            0)
         wait()
     end
 
