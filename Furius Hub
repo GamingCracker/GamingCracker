@@ -211,12 +211,6 @@ character.HumanoidRootPart.Changed:Connect(function()
 end)
 
 
-local Tab = Window:MakeTab({
-	Name = "Auto Stats",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
 local autoStatsFruit = false
 local autoStatsDefense = false
 local autoStatsMelee = false
@@ -245,26 +239,30 @@ Tab:AddToggle({
 	end    
 })
 
-while wait(1) do
-	if autoStatsFruit then
-		local args = {
-			[1] = "Fruit",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-	end
-	if autoStatsDefense then
-		local args = {
-			[1] = "Defense",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
-	end
-	if autoStatsMelee then
-		local args = {
-			[1] = "Melee",
-			[2] = 1
-		}
-		game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+local function autoStat(statName)
+	while wait(1) do
+		if statName == "Fruit" and autoStatsFruit then
+			local args = {
+				[1] = "Fruit",
+				[2] = 1
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+		elseif statName == "Defense" and autoStatsDefense then
+			local args = {
+				[1] = "Defense",
+				[2] = 1
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+		elseif statName == "Melee" and autoStatsMelee then
+			local args = {
+				[1] = "Melee",
+				[2] = 1
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+		end
 	end
 end
+
+coroutine.wrap(autoStat)("Fruit")
+coroutine.wrap(autoStat)("Defense")
+coroutine.wrap(autoStat)("Melee")
