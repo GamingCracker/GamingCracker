@@ -34,7 +34,7 @@ Tab:AddToggle({
         if Value then
             while Value do
                 attackNPC("Boggy")
-                wait(0.1) -- adjust this value for faster attacks
+                wait(0.01) -- adjust this value for faster attacks
             end
         end
     end
