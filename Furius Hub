@@ -23,10 +23,16 @@ local function attackNPC(npcName)
                 [2] = enemy
             }
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+            
+            -- check if the enemy's health is zero or below
+            if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
+                -- teleport the player to the specified position
+                local targetPosition = Vector3.new(-5099, 27, 4348)
+                character:MoveTo(targetPosition)
+            end
         end
     end
 end
-
 
 Tab:AddToggle({
     Name = "Auto Farm Boggy",
@@ -35,12 +41,11 @@ Tab:AddToggle({
         if Value then
             while Value do
                 attackNPC("Boggy")
-                wait(0.01) -- adjust this value for faster attacks
+                wait(0.001) -- adjust this value for faster attacks
             end
         end
     end
 })
-
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
