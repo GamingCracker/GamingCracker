@@ -10,6 +10,9 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
 local bosses = {
     ["Higuma"] = Vector3.new(1927, 30, 5515),
     ["Captain Axe"] = Vector3.new(2045, 84, 2552),
@@ -17,6 +20,8 @@ local bosses = {
     ["Kuriu"] = Vector3.new(-1995, 47, 6371),
     ["Captain Smoke"] = Vector3.new(-1791, 45, 1978)
 }
+
+local selectedBoss = "Higuma"
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
@@ -39,21 +44,27 @@ local function attackNPC(npcName)
     end
 end
 
-for bossName, _ in pairs(bosses) do
-    Tab:AddToggle({
-        Name = "Auto Farm " .. bossName,
-        Default = false,
-        Callback = function(Value)
-            print(Value)
-            if Value then
-                while Value do
-                    attackNPC(bossName)
-                    wait(0.00001) -- adjust this value for faster attacks
-                end
+Tab:AddDropdown({
+	Name = "Select Boss",
+	Default = "Higuma",
+	Options = {"Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
+	Callback = function(Value)
+		selectedBoss = Value
+	end    
+})
+
+Tab:AddToggle({
+    Name = "Play Auto Farm Boss",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            while Value do
+                attackNPC(selectedBoss)
+                wait(0.00001) -- adjust this value for faster attacks
             end
-        end    
-    })
-end
+        end
+    end
+})
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
