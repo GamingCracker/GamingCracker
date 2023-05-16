@@ -74,7 +74,7 @@ end
 Tab:AddDropdown({
 	Name = "Select Boss",
 	Default = "",
-	Options = {"", "Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
+	Options = {"", "Higuma", "Captain Axe", "Boggy", "Kuriu", "Sharkman", "Captain Smoke"},
 	Callback = function(Value)
 		selectedBoss = Value
 	end    
