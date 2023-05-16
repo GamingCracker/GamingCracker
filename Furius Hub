@@ -6,7 +6,7 @@ local Window = OrionLib:MakeWindow({Name = "Furius | Hub", HidePremium = false, 
 
 local Tab = Window:MakeTab({
 	Name = "Auto Farm",
-	Icon = "rbxassetid://4483345998",
+	Icon = "rbxassetid://13268172705",
 	PremiumOnly = false
 })
 
@@ -23,13 +23,6 @@ local bosses = {
 }
 
 local selectedBoss
-local noclip = false
-
-game:GetService("RunService").Stepped:connect(function()
-	if noclip then
-		game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	end
-end)
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
@@ -105,7 +98,7 @@ Tab:AddToggle({
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
-	Icon = "rbxassetid://4483345998",
+	Icon = "rbxassetid://13461004575",
 	PremiumOnly = false
 })
 
@@ -151,51 +144,11 @@ Tab:AddButton({
     end
 })
 
-local Tab = Window:MakeTab({
-	Name = "Spawn",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-
-local islands = {"PirateIsland", "SailorTown", "MapleVillage", "FishmanPark", "TravelerTown"}
-
-local function getCurrentIsland()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local position = character.HumanoidRootPart.Position
-    for _, island in pairs(islands) do
-        local islandPart = workspace:FindFirstChild(island)
-        if islandPart then
-            local distance = (islandPart.Position - position).Magnitude
-            if distance < 31000 then -- adjust this value as needed
-                return island
-            end
-        end
-    end
-    return nil
-end
-
-Tab:AddButton({
-    Name = "Spawn Boat on Current Island",
-    Callback = function()
-        local currentIsland = getCurrentIsland()
-        if currentIsland then
-            local args = {
-                [1] = "Spawn",
-                [2] = "Dinghy",
-                [3] = currentIsland
-            }
-            game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
-        else
-            print("Not on an island")
-        end
-    end
-})
 
 
 local Tab = Window:MakeTab({
 	Name = "Config",
-	Icon = "rbxassetid://4483345998",
+	Icon = "rbxassetid://13268217805",
 	PremiumOnly = false
 })
 
@@ -243,7 +196,7 @@ Tab:AddToggle({
 
 local Tab = Window:MakeTab({
 	Name = "Status|Esp",
-	Icon = "rbxassetid://4483345998",
+	Icon = "rbxassetid://13268193454",
 	PremiumOnly = false
 })
 
