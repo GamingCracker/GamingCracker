@@ -1,12 +1,12 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 
-local Window = OrionLib:MakeWindow({Name = "Furius Hub", HidePremium = false, IntroText = "Furius Hub", SaveConfig = true, ConfigFolder = true"})
+local Window = OrionLib:MakeWindow({Name = "Furius | Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 
 local Tab = Window:MakeTab({
 	Name = "Auto Farm",
-	Icon = "rbxassetid://13268172705",
+	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
@@ -23,6 +23,13 @@ local bosses = {
 }
 
 local selectedBoss
+local noclip = false
+
+game:GetService("RunService").Stepped:connect(function()
+	if noclip then
+		game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	end
+end)
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
@@ -90,7 +97,7 @@ Tab:AddToggle({
         if Value and selectedBoss then
             while Value do
                 attackNPC(selectedBoss)
-                wait(0.000001) -- adjust this value for faster attacks
+                wait(0.00001) -- adjust this value for faster attacks
             end
         end
     end
@@ -98,7 +105,7 @@ Tab:AddToggle({
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
-	Icon = "rbxassetid://13461223583",
+	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
@@ -144,11 +151,51 @@ Tab:AddButton({
     end
 })
 
+local Tab = Window:MakeTab({
+	Name = "Spawn",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local islands = {"PirateIsland", "SailorTown", "MapleVillage", "FishmanPark", "TravelerTown"}
+
+local function getCurrentIsland()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local position = character.HumanoidRootPart.Position
+    for _, island in pairs(islands) do
+        local islandPart = workspace:FindFirstChild(island)
+        if islandPart then
+            local distance = (islandPart.Position - position).Magnitude
+            if distance < 31000 then -- adjust this value as needed
+                return island
+            end
+        end
+    end
+    return nil
+end
+
+Tab:AddButton({
+    Name = "Spawn Boat on Current Island",
+    Callback = function()
+        local currentIsland = getCurrentIsland()
+        if currentIsland then
+            local args = {
+                [1] = "Spawn",
+                [2] = "Dinghy",
+                [3] = currentIsland
+            }
+            game:GetService("ReplicatedStorage").Remotes.ShipDealer:InvokeServer(unpack(args))
+        else
+            print("Not on an island")
+        end
+    end
+})
 
 
 local Tab = Window:MakeTab({
 	Name = "Config",
-	Icon = "rbxassetid://13268217805",
+	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
@@ -194,10 +241,9 @@ Tab:AddToggle({
     end
 })
 
-
 local Tab = Window:MakeTab({
 	Name = "Status|Esp",
-	Icon = "rbxassetid://13268193454",
+	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
