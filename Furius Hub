@@ -50,7 +50,7 @@ local function attackNPC(npcName)
 end
 
 Tab:AddToggle({
-    Name = "Play Auto Farm Boos",
+    Name = "This is a toggle!",
     Default = false,
     Callback = function(Value)
         print(Value)
