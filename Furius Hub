@@ -21,13 +21,13 @@ local bosses = {
     ["Captain Smoke"] = Vector3.new(-1791, 45, 1978)
 }
 
-local selectedBoss = "Higuma"
+local selectedBoss
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
         if v.Name == npcName then
             local enemy = v
-            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,10,0))
+            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
             local args = {
                 [1] = game:GetService("Players").LocalPlayer.Character.Punch,
                 [2] = enemy
@@ -46,8 +46,8 @@ end
 
 Tab:AddDropdown({
 	Name = "Select Boss",
-	Default = "Higuma",
-	Options = {"Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
+	Default = "",
+	Options = {"", "Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
 	Callback = function(Value)
 		selectedBoss = Value
 	end    
@@ -57,7 +57,7 @@ Tab:AddToggle({
     Name = "Play Auto Farm Boss",
     Default = false,
     Callback = function(Value)
-        if Value then
+        if Value and selectedBoss then
             while Value do
                 attackNPC(selectedBoss)
                 wait(0.00001) -- adjust this value for faster attacks
@@ -66,24 +66,6 @@ Tab:AddToggle({
     end
 })
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-local noclip = false
-
-game:GetService("RunService").Stepped:connect(function()
-	if noclip then
-		game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	end
-end)
-
-Tab:AddToggle({
-	Name = "Noclip",
-	Default = false,
-	Callback = function(Value)
-		noclip = Value
-	end    
-})
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
