@@ -59,7 +59,7 @@ local locations = {
     ["Sailor Town"] = {position = Vector3.new(2029, 85, 2552), spawnName = "SailorTown"},
     ["Pepper Town"] = {position = Vector3.new(-5126, 27, 4319), spawnName = "PepperTown"},
     ["Maple Village"] = {position = Vector3.new(-2005,47, 6353), spawnName = "MapleVillage"},
-    ["Fishman Park"] = {position = Vector3.new(-5126, 27, 4319), spawnName = "FishmanPark"},
+    ["Fishman Park"] = {position = Vector3.new(0, 0, 0), spawnName = "FishmanPark"},
     ["Traveler Town"] = {position = Vector3.new(-2289, 31, 2143), spawnName = "TravelerTown"},
     ["Wreck Rock"] = {position = Vector3.new(-283, 234, 4148)}
 }
@@ -154,36 +154,10 @@ Tab:AddButton({
     end
 })
 
+local Section = Tab:AddSection({
+	Name = "Auto Status"
+})
 
-
-
-
-local islands = {"PirateIsland", "SailorTown", "PapperTown", "MapleVillage", "FishmanPark", "TravelerTown"}
-
-local function setSpawn(island)
-    local args = {
-        [1] = "Spawn",
-        [2] = island
-    }
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
-end
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-character.HumanoidRootPart.Changed:Connect(function()
-    local position = character.HumanoidRootPart.Position
-    for _, island in pairs(islands) do
-        local islandPart = workspace:FindFirstChild(island)
-        if islandPart then
-            local distance = (islandPart.Position - position).Magnitude
-            if distance < 30000 then -- adjust this value as needed
-                setSpawn(island)
-                break
-            end
-        end
-    end
-end)
 
 local autoStatsSword = false
 local autoStatsFruit = false
