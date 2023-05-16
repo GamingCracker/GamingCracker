@@ -90,7 +90,7 @@ Tab:AddToggle({
         if Value and selectedBoss then
             while Value do
                 attackNPC(selectedBoss)
-                wait(0.00001) -- adjust this value for faster attacks
+                wait(0.000001) -- adjust this value for faster attacks
             end
         end
     end
