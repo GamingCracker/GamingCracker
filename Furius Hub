@@ -41,7 +41,7 @@ Tab:AddToggle({
         if Value then
             while Value do
                 attackNPC("Boggy")
-                wait(0.0001) -- adjust this value for faster attacks
+                wait(0.00001) -- adjust this value for faster attacks
             end
         end
     end
@@ -255,8 +255,7 @@ character.HumanoidRootPart.Changed:Connect(function()
     end
 end)
 
-local autoStatsFruit = false
-
+local autoStatsSword = false
 local autoStatsFruit = false
 local autoStatsDefense = false
 local autoStatsMelee = false
@@ -285,6 +284,14 @@ Tab:AddToggle({
 	end    
 })
 
+Tab:AddToggle({
+	Name = "Auto Sword",
+	Default = false,
+	Callback = function(Value)
+		autoStatsFruit = Value
+	end    
+})
+
 local function autoStat(statName)
 	while wait(1) do
 		if statName == "Fruit" and autoStatsFruit then
@@ -296,6 +303,12 @@ local function autoStat(statName)
 		elseif statName == "Defense" and autoStatsDefense then
 			local args = {
 				[1] = "Defense",
+				[2] = 1
+			}
+			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
+		elseif statName == "Defense" and autoStatsDefense then
+			local args = {
+				[1] = "Sword",
 				[2] = 1
 			}
 			game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("AddStat"):FireServer(unpack(args))
@@ -311,6 +324,7 @@ end
 
 coroutine.wrap(autoStat)("Fruit")
 coroutine.wrap(autoStat)("Defense")
+coroutine.wrap(autoStat)("Sword")
 coroutine.wrap(autoStat)("Melee")
 
 Tab:AddDropdown({
