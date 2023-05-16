@@ -41,7 +41,7 @@ Tab:AddToggle({
         if Value then
             while Value do
                 attackNPC("Boggy")
-                wait(0.001) -- adjust this value for faster attacks
+                wait(0.0001) -- adjust this value for faster attacks
             end
         end
     end
@@ -61,6 +61,13 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(1986, 29, 5454)
         character:MoveTo(targetPosition)
+        
+        -- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "PirateIsland"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
@@ -72,6 +79,13 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(2029, 85, 2552)
         character:MoveTo(targetPosition)
+        
+        -- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "SailorTown"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
@@ -82,6 +96,13 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(-5126, 27, 4319)
         character:MoveTo(targetPosition)
+	
+-- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "PepperTown"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
@@ -92,6 +113,13 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(-2005,47, 6353)
         character:MoveTo(targetPosition)
+	
+    -- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "MapleVillage"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
@@ -102,6 +130,12 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(-5126, 27, 4319)
         character:MoveTo(targetPosition)
+    -- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "FishmanPark"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
@@ -112,6 +146,12 @@ Tab:AddButton({
         local character = player.Character or player.CharacterAdded:Wait()
         local targetPosition = Vector3.new(-2289, 31, 2143)
         character:MoveTo(targetPosition)
+    -- send the remote event request
+        local args = {
+            [1] = "Spawn",
+            [2] = "TravelerTown"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Server"):FireServer(unpack(args))
     end
 })
 
