@@ -241,6 +241,13 @@ Tab:AddToggle({
     end
 })
 
+local Tab = Window:MakeTab({
+	Name = "Status|Esp",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
 local Section = Tab:AddSection({
 	Name = "Auto Status"
 })
