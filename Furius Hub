@@ -18,6 +18,7 @@ local bosses = {
     ["Captain Axe"] = Vector3.new(2045, 84, 2552),
     ["Boggy"] = Vector3.new(-5099, 27, 4348),
     ["Kuriu"] = Vector3.new(-1995, 47, 6371),
+    ["Sharkman"] = Vector3.new(-1791, 45, 1978),
     ["Captain Smoke"] = Vector3.new(-1791, 45, 1978)
 }
 
@@ -34,7 +35,15 @@ local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
         if v.Name == npcName then
             local enemy = v
-            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,10,0))
+            
+            -- calculate the NPC's forward vector
+            local forwardVector = enemy.PrimaryPart.CFrame.LookVector
+            
+            -- calculate the position behind the NPC
+            local behindPosition = enemy.PrimaryPart.Position - forwardVector * 10
+            
+            -- teleport the player behind the NPC
+            character:SetPrimaryPartCFrame(CFrame.new(behindPosition))
             
             -- check if the Punch tool is equipped
             local punchTool = player.Character:FindFirstChild("Punch")
@@ -106,7 +115,7 @@ local locations = {
     ["Sailor Town"] = {position = Vector3.new(2029, 85, 2552), spawnName = "SailorTown"},
     ["Pepper Town"] = {position = Vector3.new(-5126, 27, 4319), spawnName = "PepperTown"},
     ["Maple Village"] = {position = Vector3.new(-2005,47, 6353), spawnName = "MapleVillage"},
-    ["Fishman Park"] = {position = Vector3.new(0, 0, 0), spawnName = "FishmanPark"},
+    ["Fishman Park"] = {position = Vector3.new(-1808, 15 -1685), spawnName = "FishmanPark"},
     ["Traveler Town"] = {position = Vector3.new(-2289, 31, 2143), spawnName = "TravelerTown"},
     ["Wreck Rock"] = {position = Vector3.new(-283, 234, 4148)}
 }
