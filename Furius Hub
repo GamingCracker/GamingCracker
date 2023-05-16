@@ -213,7 +213,7 @@ Tab:AddButton({
 local player = game.Players.LocalPlayer
 local camera = workspace.CurrentCamera
 
-Section:AddToggle({
+Tab:AddToggle({
     Name = "Toggle Zoom",
     Default = false,
     Callback = function(Value)
@@ -227,7 +227,7 @@ Section:AddToggle({
     end
 })
 
-Section:AddToggle({
+Tab:AddToggle({
     Name = "Toggle Sky and Fog",
     Default = false,
     Callback = function(Value)
