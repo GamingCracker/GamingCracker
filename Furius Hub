@@ -77,7 +77,6 @@ Tab:AddToggle({
     Name = "Play Auto Farm Boss",
     Default = false,
     Callback = function(Value)
-        noclip = Value
         
         -- execute verification code when auto farm is enabled
         if Value then
@@ -94,6 +93,26 @@ Tab:AddToggle({
             end
         end
     end
+})
+
+Tab:AddButton({
+    Name = "Auto Chest",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local chest = game.Workspace:FindFirstChild("Chest")
+
+        if chest then
+            character:MoveTo(chest:GetPrimaryPartCFrame().p)
+            wait(2)
+            local prompt = chest:FindFirstChildOfClass("ProximityPrompt")
+            if prompt then
+                prompt:InputHoldBegin()
+                wait(prompt.HoldDuration)
+                prompt:InputHoldEnd()
+            end
+        end
+    end    
 })
 
 local Tab = Window:MakeTab({
