@@ -10,15 +10,6 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-Tab:AddDropdown({
-    Name = "Dropdown",
-    Default = "Higuma",
-    Options = {"Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
-    Callback = function(Value)
-        print(Value)
-    end    
-})
-
 local bosses = {
     ["Higuma"] = Vector3.new(1927, 30, 5515),
     ["Captain Axe"] = Vector3.new(2045, 84, 2552),
@@ -41,27 +32,28 @@ local function attackNPC(npcName)
             -- check if the enemy's health is zero or below
             if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
                 -- teleport the player to the specified position
-                local targetPosition = Vector3.new(-5099, 27, 4348)
+                local targetPosition = bosses[npcName]
                 character:MoveTo(targetPosition)
             end
         end
     end
 end
 
-Tab:AddToggle({
-    Name = "This is a toggle!",
-    Default = false,
-    Callback = function(Value)
-        print(Value)
-        if Value then
-            local selectedBoss = Tab:GetValue("Dropdown")
-            while Value do
-                attackNPC(selectedBoss)
-                wait(0.00001) -- adjust this value for faster attacks
+for bossName, _ in pairs(bosses) do
+    Tab:AddToggle({
+        Name = "Auto Farm " .. bossName,
+        Default = false,
+        Callback = function(Value)
+            print(Value)
+            if Value then
+                while Value do
+                    attackNPC(bossName)
+                    wait(0.00001) -- adjust this value for faster attacks
+                end
             end
-        end
-    end    
-})
+        end    
+    })
+end
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
