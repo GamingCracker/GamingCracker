@@ -98,7 +98,7 @@ Tab:AddToggle({
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
-	Icon = "rbxassetid://13461004575",
+	Icon = "rbxassetid://13461223583",
 	PremiumOnly = false
 })
 
