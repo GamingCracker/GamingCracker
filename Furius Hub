@@ -22,6 +22,13 @@ local bosses = {
 }
 
 local selectedBoss
+local noclip = false
+
+game:GetService("RunService").Stepped:connect(function()
+	if noclip then
+		game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	end
+end)
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
@@ -57,7 +64,14 @@ Tab:AddToggle({
     Name = "Play Auto Farm Boss",
     Default = false,
     Callback = function(Value)
+        noclip = Value
         if Value and selectedBoss then
+            -- equip the Punch tool
+            local punchTool = player.Backpack:FindFirstChild("Punch")
+            if punchTool then
+                punchTool.Parent = player.Character
+            end
+            
             while Value do
                 attackNPC(selectedBoss)
                 wait(0.00001) -- adjust this value for faster attacks
@@ -65,7 +79,6 @@ Tab:AddToggle({
         end
     end
 })
-
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
