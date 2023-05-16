@@ -17,7 +17,7 @@ local bosses = {
     ["Higuma"] = Vector3.new(1927, 30, 5515),
     ["Captain Axe"] = Vector3.new(2045, 84, 2552),
     ["Boggy"] = Vector3.new(-5099, 27, 4348),
-    ["Kuriu"] = Vector3.new(-1995, 47, 6371),
+    ["Koriu"] = Vector3.new(-1995, 47, 6371),
     ["Sharkman"] = Vector3.new(-1791, 45, 1978),
     ["Captain Smoke"] = Vector3.new(-1791, 45, 1978)
 }
@@ -74,7 +74,7 @@ end
 Tab:AddDropdown({
 	Name = "Select Boss",
 	Default = "",
-	Options = {"", "Higuma", "Captain Axe", "Boggy", "Kuriu", "Sharkman", "Captain Smoke"},
+	Options = {"", "Higuma", "Captain Axe", "Boggy", "Koriu", "Sharkman", "Captain Smoke"},
 	Callback = function(Value)
 		selectedBoss = Value
 	end    
