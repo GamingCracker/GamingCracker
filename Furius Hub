@@ -24,12 +24,6 @@ local bosses = {
 
 local selectedBoss
 
-game:GetService("RunService").Stepped:connect(function()
-	if noclip then
-		game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	end
-end)
-
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
         if v.Name == npcName then
@@ -73,7 +67,7 @@ end
 
 Tab:AddDropdown({
 	Name = "Select Boss",
-	Options = {"Higuma", "Captain Axe", "Boggy", "Koriu", "Sharkman", "Captain Smoke"},
+	Options = {"Higuma", "Captain Axe", "Boggy", "Kurio", "Sharkman", "Captain Smoke"},
 	Callback = function(Value)
 		selectedBoss = Value
 	end    
