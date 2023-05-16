@@ -168,6 +168,16 @@ Tab:AddToggle({
     end
 })
 
+local selectedCombatMode
+
+Tab:AddDropdown({
+    Name = "Select Combat Mode",
+    Options = {"Katana", "Punch"},
+    Callback = function(Value)
+        selectedCombatMode = Value
+    end    
+})
+
 local Tab = Window:MakeTab({
 	Name = "Teleport",
 	Icon = "rbxassetid://4483345998",
