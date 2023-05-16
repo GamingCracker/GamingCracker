@@ -10,6 +10,10 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local Section = Tab:AddSection({
+	Name = "Auto Farm Bosses"
+})
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -95,6 +99,10 @@ Tab:AddToggle({
     end
 })
 
+local Section = Tab:AddSection({
+	Name = "Auto Farm NPCs"
+})
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local replicatedChunks = workspace:WaitForChild("ReplicatedChunks")
@@ -170,6 +178,10 @@ Tab:AddToggle({
 
 local selectedCombatMode
 
+local Section = Tab:AddSection({
+	Name = "Select Weapon (bug)"
+})
+
 Tab:AddDropdown({
     Name = "Select Combat Mode",
     Options = {"Katana", "Punch"},
@@ -178,11 +190,14 @@ Tab:AddDropdown({
     end    
 })
 
+Tab:AddLabel("Auto farm is with some bugs")
+
 local Tab = Window:MakeTab({
 	Name = "Teleport",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
+
 
 
 local locations = {
