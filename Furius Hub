@@ -10,8 +10,22 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
+Tab:AddDropdown({
+    Name = "Dropdown",
+    Default = "Higuma",
+    Options = {"Higuma", "Captain Axe", "Boggy", "Kuriu", "Captain Smoke"},
+    Callback = function(Value)
+        print(Value)
+    end    
+})
+
+local bosses = {
+    ["Higuma"] = Vector3.new(1927, 30, 5515),
+    ["Captain Axe"] = Vector3.new(2045, 84, 2552),
+    ["Boggy"] = Vector3.new(-5099, 27, 4348),
+    ["Kuriu"] = Vector3.new(-1995, 47, 6371),
+    ["Captain Smoke"] = Vector3.new(-1791, 45, 1978)
+}
 
 local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
@@ -27,7 +41,8 @@ local function attackNPC(npcName)
             -- check if the enemy's health is zero or below
             if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
                 -- teleport the player to the specified position
-                local targetPosition = Vector3.new(-5099, 27, 4348)
+                local selectedBoss = Tab:GetValue("Dropdown")
+                local targetPosition = bosses[selectedBoss]
                 character:MoveTo(targetPosition)
             end
         end
@@ -35,16 +50,18 @@ local function attackNPC(npcName)
 end
 
 Tab:AddToggle({
-    Name = "Auto Farm Boggy",
+    Name = "Play Auto Farm Boos",
     Default = false,
     Callback = function(Value)
+        print(Value)
         if Value then
+            local selectedBoss = Tab:GetValue("Dropdown")
             while Value do
-                attackNPC("Boggy")
+                attackNPC(selectedBoss)
                 wait(0.00001) -- adjust this value for faster attacks
             end
         end
-    end
+    end    
 })
 
 local Tab = Window:MakeTab({
