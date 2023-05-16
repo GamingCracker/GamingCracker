@@ -41,8 +41,7 @@ local function attackNPC(npcName)
             -- check if the enemy's health is zero or below
             if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
                 -- teleport the player to the specified position
-                local selectedBoss = Tab:GetValue("Dropdown")
-                local targetPosition = bosses[selectedBoss]
+                local targetPosition = Vector3.new(-5099, 27, 4348)
                 character:MoveTo(targetPosition)
             end
         end
