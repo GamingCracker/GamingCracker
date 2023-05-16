@@ -27,7 +27,7 @@ local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
         if v.Name == npcName then
             local enemy = v
-            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,10,0))
             local args = {
                 [1] = game:GetService("Players").LocalPlayer.Character.Punch,
                 [2] = enemy
