@@ -95,6 +95,83 @@ Tab:AddToggle({
     end
 })
 
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local replicatedChunks = workspace:WaitForChild("ReplicatedChunks")
+
+local npcs = {"Bandit", "Soldier", "Clown Pirate", "Pirate Cat", "Commando"}
+local teleportNpcs = {"Ruby", "Makato", "Eren", "Yosopp", "Titan"}
+
+for i, npcName in ipairs(npcs) do
+    for i, v in pairs(replicatedChunks:GetDescendants()) do
+        if v.Name == npcName then
+            local enemy = v
+            
+            -- teleport the player to the NPC
+            character:MoveTo(enemy.PrimaryPart.Position)
+            
+            -- check if the Katana tool is equipped
+            local katanaTool = player.Character:FindFirstChild("Katana")
+            if not katanaTool then
+                -- equip the Katana tool
+                wait(2)
+                katanaTool = player.Backpack:FindFirstChild("Katana")
+                if katanaTool then
+                    katanaTool.Parent = player.Character
+                end
+            end
+            
+            local args = {
+                [1] = game:GetService("Players").LocalPlayer.Character.Katana,
+                [2] = enemy
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+            
+            -- check if the enemy's health is zero or below
+            if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
+                -- teleport the player to the next NPC
+                local teleportNpcName = teleportNpcs[i]
+                local teleportNpc = game.ReplicatedStorage.ViewportNPCs:FindFirstChild(teleportNpcName)
+                if teleportNpc then
+                    character:SetPrimaryPartCFrame(teleportNpc.PrimaryPart.CFrame * CFrame.new(0, 10, 0))
+                end
+                
+                break
+            end
+        end
+    end
+end
+
+local selectedNpc
+
+Tab:AddDropdown({
+    Name = "Select NPC",
+    Options = {"Bandit", "Soldier", "Clown Pirate", "Pirate Cat", "Commando"},
+    Callback = function(Value)
+        selectedNpc = Value
+    end    
+})
+
+Tab:AddToggle({
+    Name = "Play Auto Farm Npc",
+    Default = false,
+    Callback = function(Value)
+        -- execute verification code when auto farm is enabled
+        if Value then
+            local args = {
+                [1] = "IronWill"
+            }
+            game:GetService("ReplicatedStorage").Remotes.Server:FireServer(unpack(args))
+        end
+        
+        if Value and selectedNpc then
+            while Value do
+                attackNPC(selectedNpc)
+                wait(0.00001) -- adjust this value for faster attacks
+            end
+        end
+    end
+})
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
