@@ -210,6 +210,43 @@ Tab:AddButton({
     end
 })
 
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+Section:AddToggle({
+    Name = "Toggle Zoom",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            player.CameraMaxZoomDistance = math.huge
+            camera.FieldOfView = 70
+        else
+            player.CameraMaxZoomDistance = 400
+            camera.FieldOfView = 70
+        end
+    end
+})
+
+Section:AddToggle({
+    Name = "Toggle Sky and Fog",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            game.Lighting.FogEnd = math.huge
+            game.Lighting.Sky:Destroy()
+        else
+            game.Lighting.FogEnd = 1000
+            local sky = Instance.new("Sky", game.Lighting)
+        end
+    end
+})
+
+local Tab = Window:MakeTab({
+	Name = "Auto Stats",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
 local Section = Tab:AddSection({
 	Name = "Auto Status"
 })
