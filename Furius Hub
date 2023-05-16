@@ -34,7 +34,18 @@ local function attackNPC(npcName)
     for i, v in pairs(workspace.ReplicatedChunks:GetDescendants()) do
         if v.Name == npcName then
             local enemy = v
-            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,-10,0))
+            character:SetPrimaryPartCFrame(enemy.PrimaryPart.CFrame * CFrame.new(0,10,0))
+            
+            -- check if the Punch tool is equipped
+            local punchTool = player.Character:FindFirstChild("Punch")
+            if not punchTool then
+                -- equip the Punch tool
+                punchTool = player.Backpack:FindFirstChild("Punch")
+                if punchTool then
+                    punchTool.Parent = player.Character
+                end
+            end
+            
             local args = {
                 [1] = game:GetService("Players").LocalPlayer.Character.Punch,
                 [2] = enemy
@@ -65,13 +76,16 @@ Tab:AddToggle({
     Default = false,
     Callback = function(Value)
         noclip = Value
+        
+        -- execute verification code when auto farm is enabled
+        if Value then
+            local args = {
+                [1] = "IronWill"
+            }
+            game:GetService("ReplicatedStorage").Remotes.Server:FireServer(unpack(args))
+        end
+        
         if Value and selectedBoss then
-            -- equip the Punch tool
-            local punchTool = player.Backpack:FindFirstChild("Punch")
-            if punchTool then
-                punchTool.Parent = player.Character
-            end
-            
             while Value do
                 attackNPC(selectedBoss)
                 wait(0.00001) -- adjust this value for faster attacks
