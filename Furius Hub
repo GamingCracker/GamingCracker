@@ -23,7 +23,6 @@ local bosses = {
 }
 
 local selectedBoss
-local noclip = false
 
 game:GetService("RunService").Stepped:connect(function()
 	if noclip then
@@ -49,6 +48,7 @@ local function attackNPC(npcName)
             local punchTool = player.Character:FindFirstChild("Punch")
             if not punchTool then
                 -- equip the Punch tool
+                wait(2)
                 punchTool = player.Backpack:FindFirstChild("Punch")
                 if punchTool then
                     punchTool.Parent = player.Character
