@@ -242,7 +242,7 @@ Section:AddToggle({
 })
 
 local Tab = Window:MakeTab({
-	Name = "Auto Stats",
+	Name = "Auto Stats/Esp",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
