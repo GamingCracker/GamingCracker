@@ -95,23 +95,6 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddButton({
-    Name = "Auto Chest",
-    Callback = function()
-       local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local chest = game.Workspace:FindFirstChild("Chest")
-
-if chest and chest:IsA("Part") then
-    character:MoveTo(chest.Position)
-    wait(2)
-    local prompt = chest:FindFirstChildOfClass("ProximityPrompt")
-    if prompt then
-        prompt:InputHoldBegin()
-        wait(prompt.HoldDuration)
-        prompt:InputHoldEnd()
-    end
-end
 
 local Tab = Window:MakeTab({
 	Name = "Teleport",
