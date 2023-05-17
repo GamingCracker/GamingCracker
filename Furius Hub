@@ -117,9 +117,9 @@ local function attackNPC(npcName)
             
             -- check if the NPC is within range
             local distance = (character.PrimaryPart.Position - enemy.PrimaryPart.Position).Magnitude
-            if distance <= 50 then
+            if distance <= 100 then -- increased range of attack from 50 to 100
                 -- teleport the player to the NPC
-                character:MoveTo(enemy.PrimaryPart.Position)
+                character.PrimaryPart.CFrame = enemy.PrimaryPart.CFrame + Vector3.new(0, 5, 0)
                 
                 -- check if the Katana tool is equipped
                 local PunchTool = player.Character:FindFirstChild("Punch")
@@ -147,11 +147,22 @@ local function attackNPC(npcName)
     end
 end
 
+local function bringNPC(npcName)
+    for i, v in pairs(replicatedChunks:GetDescendants()) do
+        if v.Name == npcName then
+            local enemy = v
+            enemy:SetPrimaryPartCFrame(character.PrimaryPart.CFrame)
+            break
+        end
+    end
+end
+
 Tab:AddDropdown({
     Name = "Select NPC",
     Options = {"Bandit", "Soldier", "Clown Pirate", "Pirate Cat", "Commando"},
     Callback = function(Value)
         selectedNpc = Value
+        bringNPC(selectedNpc)
     end    
 })
 
