@@ -1,5 +1,4 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 
 local Window = OrionLib:MakeWindow({Name = "Furius | Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
@@ -111,81 +110,92 @@ local selectedNpc
 local autoFarmEnabled = false
 
 local function attackNPC(npcName)
-    for i, v in pairs(replicatedChunks:GetDescendants()) do
-        if v.Name == npcName then
-            local enemy = v
-            
-            -- check if the NPC is within range
-            local distance = (character.PrimaryPart.Position - enemy.PrimaryPart.Position).Magnitude
-            if distance <= 100 then -- increased range of attack from 50 to 100
-                -- teleport the player to the NPC
-                character.PrimaryPart.CFrame = enemy.PrimaryPart.CFrame + Vector3.new(0, 5, 0)
-                
-                -- check if the Katana tool is equipped
-                local PunchTool = player.Character:FindFirstChild("Punch")
-                if not PunchTool then
-                    -- equip the Katana tool
-                    wait(2)
-                    PunchTool = player.Backpack:FindFirstChild("Punch")
-                    if PunchTool then
-                        PunchTool.Parent = player.Character
-                    end
-                end
-                
-                local args = {
-                    [1] = game:GetService("Players").LocalPlayer.Character.Punch,
-                    [2] = enemy
-                }
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
-                
-                -- check if the enemy's health is zero or below
-                if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
-                    break
-                end
-            end
-        end
-    end
+ for i, v in pairs(replicatedChunks:GetDescendants()) do
+ if v.Name == npcName then
+ local enemy = v
+ 
+ -- teleport the player to the NPC
+ character.PrimaryPart.CFrame = enemy.PrimaryPart.CFrame + Vector3.new(0, 5, 0)
+ 
+ -- check if the Katana tool is equipped
+ local PunchTool = player.Character:FindFirstChild("Punch")
+ if not PunchTool then
+ -- equip the Katana tool
+ wait(2)
+ PunchTool = player.Backpack:FindFirstChild("Punch")
+ if PunchTool then
+ PunchTool.Parent = player.Character
+ end
+ end
+ 
+ local args = {
+ [1] = game:GetService("Players").LocalPlayer.Character.Punch,
+ [2] = enemy
+ }
+ game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Melee"):FireServer(unpack(args))
+ 
+ -- check if the enemy's health is zero or below
+ if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health <= 0 then
+ break
+ end
+ end
+ end
 end
 
 local function bringNPC(npcName)
-    for i, v in pairs(replicatedChunks:GetDescendants()) do
-        if v.Name == npcName then
-            local enemy = v
-            enemy:SetPrimaryPartCFrame(character.PrimaryPart.CFrame)
-            break
-        end
-    end
+ for i, v in pairs(replicatedChunks:GetDescendants()) do
+ if v.Name == npcName then
+ local enemy = v
+ 
+ -- bring the NPC to below the player's character 
+ enemy:SetPrimaryPartCFrame(character.PrimaryPart.CFrame - Vector3.new(0, 5, 0))
+ 
+ break
+ end
+ end
+ 
+ -- advanced bring mob system that brings all NPCs within a range of 50 studs or less to below the player's character 
+ for i, v in pairs(replicatedChunks:GetDescendants()) do 
+ if v:IsA("Model") and v:FindFirstChild("Humanoid") then 
+ local distance = (character.PrimaryPart.Position - v.PrimaryPart.Position).Magnitude 
+ if distance <= 50 then 
+ v:SetPrimaryPartCFrame(character.PrimaryPart.CFrame - Vector3.new(0, 5, 0)) 
+ end 
+ end 
+ end 
 end
 
 Tab:AddDropdown({
-    Name = "Select NPC",
-    Options = {"Bandit", "Soldier", "Clown Pirate", "Pirate Cat", "Commando"},
-    Callback = function(Value)
-        selectedNpc = Value
-        bringNPC(selectedNpc)
-    end    
+ Name = "Select NPC",
+ Options = {"Pillager", "Soldier", "Clown Pirate", "Pirate Cat", "Commando"},
+ Callback = function(Value)
+ selectedNpc = Value
+ bringNPC(selectedNpc)
+ end 
 })
 
 Tab:AddToggle({
-    Name = "Play Auto Farm Npc",
-    Default = false,
-    Callback = function(Value)
-        autoFarmEnabled = Value
-        
-        -- execute verification code when auto farm is enabled
-        if Value then
-            local args = {
-                [1] = "IronWill"
-            }
-            game:GetService("ReplicatedStorage").Remotes.Server:FireServer(unpack(args))
-        end
-        
-        while autoFarmEnabled and selectedNpc do
-            attackNPC(selectedNpc)
-            wait(0.00001) -- adjust this value for faster attacks
-        end
-    end
+ Name = "Play Auto Farm Npc",
+ Default = false,
+ Callback = function(Value)
+ autoFarmEnabled = Value
+ 
+ Wait(2)
+ -- execute verification code when auto farm is enabled
+ if Value then
+ local args = {
+ [1] = "IronWill"
+ }
+ game:GetService("ReplicatedStorage").Remotes.Server:FireServer(unpack(args))
+ end
+ 
+ while autoFarmEnabled and selectedNpc do
+ attackNPC(selectedNpc)
+ wait(0.00001) -- adjust this value for faster attacks
+ end
+ end
 })
+
 
 local selectedCombatMode
 
